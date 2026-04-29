@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36915.13 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		OSM.API\.editorconfig = OSM.API\.editorconfig
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{54513FCA-B198-47E9-BA83-A9456468EE48}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{251C388F-A8AA-4EFE-877C-23212040FE5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSM.API", "OSM.API\OSM.API.csproj", "{FE4E0AF4-F3A2-449F-926E-21293C8F1DE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSM.Application", "OSM.Application\OSM.Application.csproj", "{DBB0B63B-2F41-4DBC-8344-247F8E134CBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSM.Domain", "OSM.Domain\OSM.Domain.csproj", "{F8401CEA-99ED-4366-9AD7-E32213D8F37F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSM.Infrastructure", "OSM.Infrastructure\OSM.Infrastructure.csproj", "{18C5244D-6AE5-48CF-83A0-9244F01B3C4C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE4E0AF4-F3A2-449F-926E-21293C8F1DE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE4E0AF4-F3A2-449F-926E-21293C8F1DE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE4E0AF4-F3A2-449F-926E-21293C8F1DE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE4E0AF4-F3A2-449F-926E-21293C8F1DE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBB0B63B-2F41-4DBC-8344-247F8E134CBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBB0B63B-2F41-4DBC-8344-247F8E134CBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBB0B63B-2F41-4DBC-8344-247F8E134CBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBB0B63B-2F41-4DBC-8344-247F8E134CBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8401CEA-99ED-4366-9AD7-E32213D8F37F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8401CEA-99ED-4366-9AD7-E32213D8F37F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8401CEA-99ED-4366-9AD7-E32213D8F37F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8401CEA-99ED-4366-9AD7-E32213D8F37F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18C5244D-6AE5-48CF-83A0-9244F01B3C4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18C5244D-6AE5-48CF-83A0-9244F01B3C4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18C5244D-6AE5-48CF-83A0-9244F01B3C4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18C5244D-6AE5-48CF-83A0-9244F01B3C4C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FE4E0AF4-F3A2-449F-926E-21293C8F1DE3} = {54513FCA-B198-47E9-BA83-A9456468EE48}
+		{DBB0B63B-2F41-4DBC-8344-247F8E134CBA} = {54513FCA-B198-47E9-BA83-A9456468EE48}
+		{F8401CEA-99ED-4366-9AD7-E32213D8F37F} = {54513FCA-B198-47E9-BA83-A9456468EE48}
+		{18C5244D-6AE5-48CF-83A0-9244F01B3C4C} = {54513FCA-B198-47E9-BA83-A9456468EE48}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0C68D4D9-5B0B-43C2-B291-5691113A5338}
+	EndGlobalSection
+EndGlobal
