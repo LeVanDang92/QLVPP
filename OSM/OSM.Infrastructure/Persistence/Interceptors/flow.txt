@@ -1,0 +1,9 @@
+﻿Handler sửa entity
+  ↓
+TransactionBehavior gọi SaveChanges
+  ↓
+AuditSaveChangesInterceptor chạy
+  ↓
+Tự động set CreatedAt / ModifiedAt
+  ↓
+Tự động ghi AuditLogs

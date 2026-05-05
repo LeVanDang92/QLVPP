@@ -1,0 +1,9 @@
+﻿Controller
+  ↓
+MediatR
+  ↓
+ValidationBehavior
+  ↓
+TransactionBehavior
+  ↓
+Handler
