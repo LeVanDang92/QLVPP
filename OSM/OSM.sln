@@ -5,19 +5,21 @@ VisualStudioVersion = 17.14.36915.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
-		OSM.API\.editorconfig = OSM.API\.editorconfig
+	.editorconfig = .editorconfig
+		.gitignore = .gitignore
 		Directory.Build.props = Directory.Build.props
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{54513FCA-B198-47E9-BA83-A9456468EE48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSM.API", "OSM.API\OSM.API.csproj", "{FE4E0AF4-F3A2-449F-926E-21293C8F1DE3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSM.API", "src\OSM.API\OSM.API.csproj", "{FE4E0AF4-F3A2-449F-926E-21293C8F1DE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSM.Application", "OSM.Application\OSM.Application.csproj", "{DBB0B63B-2F41-4DBC-8344-247F8E134CBA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSM.Application", "src\OSM.Application\OSM.Application.csproj", "{DBB0B63B-2F41-4DBC-8344-247F8E134CBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSM.Domain", "OSM.Domain\OSM.Domain.csproj", "{F8401CEA-99ED-4366-9AD7-E32213D8F37F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSM.Domain", "src\OSM.Domain\OSM.Domain.csproj", "{F8401CEA-99ED-4366-9AD7-E32213D8F37F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSM.Infrastructure", "OSM.Infrastructure\OSM.Infrastructure.csproj", "{18C5244D-6AE5-48CF-83A0-9244F01B3C4C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSM.Infrastructure", "src\OSM.Infrastructure\OSM.Infrastructure.csproj", "{18C5244D-6AE5-48CF-83A0-9244F01B3C4C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
