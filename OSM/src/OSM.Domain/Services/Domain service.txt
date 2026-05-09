@@ -1,0 +1,55 @@
+﻿Domain Service nằm trong Domain
+Chứa nghiệp vụ thuần
+Không gọi DbContext
+Không gọi Repository
+Không gọi HttpContext
+Không gửi email
+Không SaveChanges
+Nhận entity đã load sẵn từ Handler
+Xử lý rule nghiệp vụ
+Trả về object domain
+Handler chịu trách nhiệm lưu DB
+
+====
+
+Entity: tự bảo vệ chính nó
+Domain Service: xử lý nghiệp vụ liên quan nhiều entity
+CommandHandler: lấy dữ liệu, gọi domain service, lưu database
+Controller: nhận request và gọi MediatR
+
+====
+
+OSM.Domain
+ ├── Entities
+ │   ├── Products
+ │   │   └── Product.cs
+ │   ├── Inventories
+ │   │   ├── Inventory.cs
+ │   │   └── InventoryTransaction.cs
+ │   └── StockIssues
+ │       ├── StockIssue.cs
+ │       └── StockIssueItem.cs
+ │
+ ├── Exceptions
+ │   └── DomainException.cs
+ │
+ └── Services
+     ├── IssueStockLine.cs
+     ├── IssueStockResult.cs
+     ├── IStockIssueDomainService.cs
+     └── StockIssueDomainService.cs
+
+
+OSM.Application
+ └── Features
+     └── StockIssues
+         └── Commands
+             └── CreateStockIssue
+                 ├── CreateStockIssueCommand.cs
+                 ├── CreateStockIssueCommandHandler.cs
+                 └── CreateStockIssueCommandValidator.cs
+
+
+OSM.API
+ └── Controllers
+     └── StockIssuesController.cs

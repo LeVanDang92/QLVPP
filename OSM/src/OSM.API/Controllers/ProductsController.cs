@@ -16,7 +16,7 @@ namespace OSM.API.Controllers
     public sealed class ProductsController(ISender sender) : ApiController
     {
         [HttpGet]
-        //[Authorize(Policy = Policies.Read)]
+        [Authorize(Policy = Policies.ProductRead)]
         public async Task<IActionResult> GetProducts([FromQuery] string? search, [FromQuery] int pageIndex = 1, [FromQuery] int pageSize = 20, CancellationToken cancellationToken = default)
         {
             var result = await sender.Send(new GetProductsQuery(search, pageIndex, pageSize), cancellationToken);
