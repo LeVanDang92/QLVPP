@@ -21,5 +21,7 @@
             string filePath,
             Stream destination,
             CancellationToken cancellationToken = default);
+
+        Task<bool> DeleteFileFromSynology(string filePath, CancellationToken cancellationToken = default);
     }
 }

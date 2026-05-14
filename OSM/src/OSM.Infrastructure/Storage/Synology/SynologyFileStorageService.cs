@@ -46,7 +46,7 @@ namespace OSM.Infrastructure.Storage.Synology
                         ["version"] = _options.FileStationVersion.ToString(),
                         ["method"] = "create",
                         ["folder_path"] = parentFolder,
-                        ["name"] = folderName,
+                        ["name"] = folderName, // không để folderName ở dạng là number vì có thể gây lỗi
                         ["force_parent"] = "true",
                         ["_sid"] = sessionId
                     };
@@ -194,6 +194,29 @@ namespace OSM.Infrastructure.Storage.Synology
                     }
 
                     await response.Content.CopyToAsync(destination, cancellationToken);
+                    return true;
+                },
+                cancellationToken);
+        }
+
+        public Task<bool> DeleteFileFromSynology(string filePath, CancellationToken cancellationToken = default)
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
+            return ExecuteWithSessionAsync(
+                async sessionId =>
+                {
+                    var parameters = new Dictionary<string, string>
+                    {
+                        ["api"] = "SYNO.FileStation.Delete",
+                        ["version"] = _options.FileStationVersion.ToString(),
+                        ["method"] = "delete",
+                        ["path"] = filePath,
+                        ["_sid"] = sessionId
+                    };
+                    await PostFormAsync<JsonElement>(
+                        "entry.cgi",
+                        parameters,
+                        cancellationToken);
                     return true;
                 },
                 cancellationToken);

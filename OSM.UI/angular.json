@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "OSM": {
+    "OSM.UI": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -56,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "OSM:build:production"
+              "buildTarget": "OSM.UI:build:production"
             },
             "development": {
-              "buildTarget": "OSM:build:development"
+              "buildTarget": "OSM.UI:build:development"
             }
           },
           "defaultConfiguration": "development"
