@@ -3,6 +3,22 @@
   "WorkspaceRootPath": "E:\\MY SOURCE\\Project\\Quan Ly Van Phong Pham\\OSM\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{18C5244D-6AE5-48CF-83A0-9244F01B3C4C}|src\\OSM.Infrastructure\\OSM.Infrastructure.csproj|e:\\my source\\project\\quan ly van phong pham\\osm\\src\\osm.infrastructure\\storage\\synology\\synologyfilestorageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{18C5244D-6AE5-48CF-83A0-9244F01B3C4C}|src\\OSM.Infrastructure\\OSM.Infrastructure.csproj|solutionrelative:src\\osm.infrastructure\\storage\\synology\\synologyfilestorageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{18C5244D-6AE5-48CF-83A0-9244F01B3C4C}|src\\OSM.Infrastructure\\OSM.Infrastructure.csproj|e:\\my source\\project\\quan ly van phong pham\\osm\\src\\osm.infrastructure\\storage\\synology\\synologyoptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{18C5244D-6AE5-48CF-83A0-9244F01B3C4C}|src\\OSM.Infrastructure\\OSM.Infrastructure.csproj|solutionrelative:src\\osm.infrastructure\\storage\\synology\\synologyoptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DBB0B63B-2F41-4DBC-8344-247F8E134CBA}|src\\OSM.Application\\OSM.Application.csproj|e:\\my source\\project\\quan ly van phong pham\\osm\\src\\osm.application\\abstractions\\storage\\ifilestorageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DBB0B63B-2F41-4DBC-8344-247F8E134CBA}|src\\OSM.Application\\OSM.Application.csproj|solutionrelative:src\\osm.application\\abstractions\\storage\\ifilestorageservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{18C5244D-6AE5-48CF-83A0-9244F01B3C4C}|src\\OSM.Infrastructure\\OSM.Infrastructure.csproj|e:\\my source\\project\\quan ly van phong pham\\osm\\src\\osm.infrastructure\\storage\\synology\\synologyexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{18C5244D-6AE5-48CF-83A0-9244F01B3C4C}|src\\OSM.Infrastructure\\OSM.Infrastructure.csproj|solutionrelative:src\\osm.infrastructure\\storage\\synology\\synologyexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FE4E0AF4-F3A2-449F-926E-21293C8F1DE3}|src\\OSM.API\\OSM.API.csproj|e:\\my source\\project\\quan ly van phong pham\\osm\\src\\osm.api\\controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FE4E0AF4-F3A2-449F-926E-21293C8F1DE3}|src\\OSM.API\\OSM.API.csproj|solutionrelative:src\\osm.api\\controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -58,7 +74,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 159,
-          "SelectedChildIndex": 17,
+          "SelectedChildIndex": 21,
           "Children": [
             {
               "$type": "Bookmark",
@@ -90,7 +106,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 14,
               "Title": "GetProductsQueryHandler.cs",
               "DocumentMoniker": "E:\\MY SOURCE\\Project\\Quan Ly Van Phong Pham\\OSM\\src\\OSM.Application\\Features\\Products\\GetProducts\\GetProductsQueryHandler.cs",
               "RelativeDocumentMoniker": "src\\OSM.Application\\Features\\Products\\GetProducts\\GetProductsQueryHandler.cs",
@@ -98,12 +114,11 @@
               "RelativeToolTip": "src\\OSM.Application\\Features\\Products\\GetProducts\\GetProductsQueryHandler.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T01:42:29.456Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-09T01:42:29.456Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "AuthController.cs",
               "DocumentMoniker": "E:\\MY SOURCE\\Project\\Quan Ly Van Phong Pham\\OSM\\src\\OSM.API\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "src\\OSM.API\\Controllers\\AuthController.cs",
@@ -111,12 +126,11 @@
               "RelativeToolTip": "src\\OSM.API\\Controllers\\AuthController.cs",
               "ViewState": "AgIAAAEAAAAAAAAAAAAAAA0AAACQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T01:46:38.205Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-09T01:46:38.205Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 10,
               "Title": "RegisterCommandHandler.cs",
               "DocumentMoniker": "E:\\MY SOURCE\\Project\\Quan Ly Van Phong Pham\\OSM\\src\\OSM.Application\\Features\\Auth\\Register\\RegisterCommandHandler.cs",
               "RelativeDocumentMoniker": "src\\OSM.Application\\Features\\Auth\\Register\\RegisterCommandHandler.cs",
@@ -124,12 +138,11 @@
               "RelativeToolTip": "src\\OSM.Application\\Features\\Auth\\Register\\RegisterCommandHandler.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T01:46:24.321Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-09T01:46:24.321Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 13,
               "Title": "DependencyInjection.cs",
               "DocumentMoniker": "E:\\MY SOURCE\\Project\\Quan Ly Van Phong Pham\\OSM\\src\\OSM.Application\\DependencyInjection.cs",
               "RelativeDocumentMoniker": "src\\OSM.Application\\DependencyInjection.cs",
@@ -137,12 +150,11 @@
               "RelativeToolTip": "src\\OSM.Application\\DependencyInjection.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T01:47:38.967Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-09T01:47:38.967Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 12,
               "Title": "IdentityService.cs",
               "DocumentMoniker": "E:\\MY SOURCE\\Project\\Quan Ly Van Phong Pham\\OSM\\src\\OSM.Infrastructure\\Identity\\IdentityService.cs",
               "RelativeDocumentMoniker": "src\\OSM.Infrastructure\\Identity\\IdentityService.cs",
@@ -150,12 +162,11 @@
               "RelativeToolTip": "src\\OSM.Infrastructure\\Identity\\IdentityService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAABNAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T01:48:32.249Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-09T01:48:32.249Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 11,
               "Title": "DependencyInjection.cs",
               "DocumentMoniker": "E:\\MY SOURCE\\Project\\Quan Ly Van Phong Pham\\OSM\\src\\OSM.Infrastructure\\DependencyInjection.cs",
               "RelativeDocumentMoniker": "src\\OSM.Infrastructure\\DependencyInjection.cs",
@@ -163,12 +174,11 @@
               "RelativeToolTip": "src\\OSM.Infrastructure\\DependencyInjection.cs",
               "ViewState": "AgIAAFsAAAAAAAAAAAASwHUAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T01:48:39.675Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-09T01:48:39.675Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 9,
               "Title": "Domain service.txt",
               "DocumentMoniker": "E:\\MY SOURCE\\Project\\Quan Ly Van Phong Pham\\OSM\\src\\OSM.Domain\\Services\\Domain service.txt",
               "RelativeDocumentMoniker": "src\\OSM.Domain\\Services\\Domain service.txt",
@@ -176,12 +186,11 @@
               "RelativeToolTip": "src\\OSM.Domain\\Services\\Domain service.txt",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2026-05-09T02:10:22.156Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-09T02:10:22.156Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "ApiController.cs",
               "DocumentMoniker": "E:\\MY SOURCE\\Project\\Quan Ly Van Phong Pham\\OSM\\src\\OSM.API\\Controllers\\ApiController.cs",
               "RelativeDocumentMoniker": "src\\OSM.API\\Controllers\\ApiController.cs",
@@ -189,12 +198,11 @@
               "RelativeToolTip": "src\\OSM.API\\Controllers\\ApiController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T02:15:21.59Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-09T02:15:21.59Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "ExcelImportsController.cs",
               "DocumentMoniker": "E:\\MY SOURCE\\Project\\Quan Ly Van Phong Pham\\OSM\\src\\OSM.API\\Controllers\\ExcelImportsController.cs",
               "RelativeDocumentMoniker": "src\\OSM.API\\Controllers\\ExcelImportsController.cs",
@@ -202,12 +210,11 @@
               "RelativeToolTip": "src\\OSM.API\\Controllers\\ExcelImportsController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T02:15:30.536Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-09T02:15:30.536Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "FilesController.cs",
               "DocumentMoniker": "E:\\MY SOURCE\\Project\\Quan Ly Van Phong Pham\\OSM\\src\\OSM.API\\Controllers\\FilesController.cs",
               "RelativeDocumentMoniker": "src\\OSM.API\\Controllers\\FilesController.cs",
@@ -215,12 +222,11 @@
               "RelativeToolTip": "src\\OSM.API\\Controllers\\FilesController.cs",
               "ViewState": "AgIAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T02:15:37.607Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-09T02:15:37.607Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "ProductsController.cs",
               "DocumentMoniker": "E:\\MY SOURCE\\Project\\Quan Ly Van Phong Pham\\OSM\\src\\OSM.API\\Controllers\\ProductsController.cs",
               "RelativeDocumentMoniker": "src\\OSM.API\\Controllers\\ProductsController.cs",
@@ -233,7 +239,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 15,
               "Title": "CreateProductCommandHandler.cs",
               "DocumentMoniker": "E:\\MY SOURCE\\Project\\Quan Ly Van Phong Pham\\OSM\\src\\OSM.Application\\Features\\Products\\CreateProduct\\CreateProductCommandHandler.cs",
               "RelativeDocumentMoniker": "src\\OSM.Application\\Features\\Products\\CreateProduct\\CreateProductCommandHandler.cs",
@@ -241,7 +247,58 @@
               "RelativeToolTip": "src\\OSM.Application\\Features\\Products\\CreateProduct\\CreateProductCommandHandler.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T01:42:20.034Z",
+              "WhenOpened": "2026-05-09T01:42:20.034Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SynologyException.cs",
+              "DocumentMoniker": "E:\\MY SOURCE\\Project\\Quan Ly Van Phong Pham\\OSM\\src\\OSM.Infrastructure\\Storage\\Synology\\SynologyException.cs",
+              "RelativeDocumentMoniker": "src\\OSM.Infrastructure\\Storage\\Synology\\SynologyException.cs",
+              "ToolTip": "E:\\MY SOURCE\\Project\\Quan Ly Van Phong Pham\\OSM\\src\\OSM.Infrastructure\\Storage\\Synology\\SynologyException.cs",
+              "RelativeToolTip": "src\\OSM.Infrastructure\\Storage\\Synology\\SynologyException.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-14T04:37:53.941Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SynologyOptions.cs",
+              "DocumentMoniker": "E:\\MY SOURCE\\Project\\Quan Ly Van Phong Pham\\OSM\\src\\OSM.Infrastructure\\Storage\\Synology\\SynologyOptions.cs",
+              "RelativeDocumentMoniker": "src\\OSM.Infrastructure\\Storage\\Synology\\SynologyOptions.cs",
+              "ToolTip": "E:\\MY SOURCE\\Project\\Quan Ly Van Phong Pham\\OSM\\src\\OSM.Infrastructure\\Storage\\Synology\\SynologyOptions.cs",
+              "RelativeToolTip": "src\\OSM.Infrastructure\\Storage\\Synology\\SynologyOptions.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAEwBYAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-14T04:37:55.157Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SynologyFileStorageService.cs",
+              "DocumentMoniker": "E:\\MY SOURCE\\Project\\Quan Ly Van Phong Pham\\OSM\\src\\OSM.Infrastructure\\Storage\\Synology\\SynologyFileStorageService.cs",
+              "RelativeDocumentMoniker": "src\\OSM.Infrastructure\\Storage\\Synology\\SynologyFileStorageService.cs",
+              "ToolTip": "E:\\MY SOURCE\\Project\\Quan Ly Van Phong Pham\\OSM\\src\\OSM.Infrastructure\\Storage\\Synology\\SynologyFileStorageService.cs",
+              "RelativeToolTip": "src\\OSM.Infrastructure\\Storage\\Synology\\SynologyFileStorageService.cs",
+              "ViewState": "AgIAAI0AAAAAAAAAAADwv9cAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-14T04:37:57.572Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IFileStorageService.cs",
+              "DocumentMoniker": "E:\\MY SOURCE\\Project\\Quan Ly Van Phong Pham\\OSM\\src\\OSM.Application\\Abstractions\\Storage\\IFileStorageService.cs",
+              "RelativeDocumentMoniker": "src\\OSM.Application\\Abstractions\\Storage\\IFileStorageService.cs",
+              "ToolTip": "E:\\MY SOURCE\\Project\\Quan Ly Van Phong Pham\\OSM\\src\\OSM.Application\\Abstractions\\Storage\\IFileStorageService.cs",
+              "RelativeToolTip": "src\\OSM.Application\\Abstractions\\Storage\\IFileStorageService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAABqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-14T04:37:59.73Z",
               "EditorCaption": ""
             }
           ]

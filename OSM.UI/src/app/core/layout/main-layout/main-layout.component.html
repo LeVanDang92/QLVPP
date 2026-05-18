@@ -1,0 +1,15 @@
+<div id="global-loader">
+  <div class="page-loader"></div>
+</div>
+
+<div class="main-wrapper">
+  <app-header></app-header>
+  <app-page-tabs></app-page-tabs>
+  <app-mobile-sidebar></app-mobile-sidebar>
+
+  <div class="page-wrapper">
+    <router-outlet />
+  </div>
+</div>
+
+<div class="sidebar-overlay" (click)="closeMobileSidebar()"></div>

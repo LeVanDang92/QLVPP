@@ -1,0 +1,30 @@
+/* Global overrides for the Angular template. */
+:root {
+  color-scheme: light;
+}
+
+.page-wrapper .content {
+  min-height: calc(100vh - 96px);
+}
+
+.sidebar-overlay {
+  display: none;
+}
+
+.sidebar-overlay.opened {
+  display: block;
+}
+
+/* Workspace tabs below fixed header */
+app-page-tabs {
+  display: block;
+  position: fixed;
+  top: 52px;
+  right: 0;
+  left: 0;
+  z-index: 998;
+}
+
+.main-wrapper .page-wrapper {
+  padding-top: 88px;
+}

@@ -1,0 +1,47 @@
+<div class="sidebar-menu">
+  <div class="main-menu">
+      <ul class="nav-menu">
+        <li class="menu-title">
+          <span>Main</span>
+        </li>
+
+        <ng-container *ngTemplateOutlet="renderItems; context: { $implicit: menuItems, level: 0 }"></ng-container>
+      </ul>
+  </div>
+</div>
+
+<ng-template #renderItems let-items let-level="level">
+  @for (item of items; track item.id) {
+    <li
+      [class.submenu]="hasChildren(item)"
+      [class.submenu-two]="hasChildren(item) && level >= 1"
+      [class.submenu-three]="hasChildren(item) && level >= 2"
+    >
+      <a
+        [class.active]="isActive(item)"
+        [class.subdrop]="isOpen(item)"
+        [href]="item.externalUrl ?? item.path ?? 'javascript:void(0);'"
+        [target]="item.externalUrl ? '_blank' : null"
+        [rel]="item.externalUrl ? 'noopener noreferrer' : null"
+        (click)="onItemClick($event, item, level)"
+      >
+        @if (item.icon) {
+          <i [class]="item.icon"></i>
+        }
+        <span>{{ item.title }}</span>
+        @if (item.badge) {
+          <span [class]="item.badge.className ?? 'badge badge-danger fs-10 fw-medium text-white p-1'">{{ item.badge.text }}</span>
+        }
+        @if (hasChildren(item)) {
+          <span [class]="menuArrowClass(level)"></span>
+        }
+      </a>
+
+      @if (hasChildren(item)) {
+        <ul [style.display]="isOpen(item) ? 'block' : null">
+          <ng-container *ngTemplateOutlet="renderItems; context: { $implicit: item.children, level: level + 1 }"></ng-container>
+        </ul>
+      }
+    </li>
+  }
+</ng-template>

@@ -1,0 +1,25 @@
+<div class="page-tabs">
+  @for (tab of tabService.tabs(); track tab.path) {
+    <button
+      type="button"
+      class="page-tab"
+      [ngClass]="{ active: tabService.activePath() === tab.path }"
+      (click)="tabService.activateTab(tab.path)"
+    >
+      <span class="tab-title">{{ tab.title }}</span>
+
+      @if (tab.closable) {
+        <span
+          class="tab-close"
+          role="button"
+          tabindex="0"
+          aria-label="Close tab"
+          (click)="tabService.closeTab(tab.path); $event.stopPropagation()"
+          (keydown.enter)="tabService.closeTab(tab.path); $event.stopPropagation()"
+        >
+          ×
+        </span>
+      }
+    </button>
+  }
+</div>
