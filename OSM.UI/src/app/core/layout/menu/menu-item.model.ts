@@ -18,3 +18,12 @@ export interface MenuSection {
   title: string;
   items: MenuItem[];
 }
+
+
+// MenuBadge   = nhãn nhỏ New/Hot
+// MenuItem    = một menu hoặc submenu
+// MenuSection = một nhóm menu
+// children    = menu con
+// path        = route Angular
+// closable    = tab có cho đóng không
+// externalUrl = link ngoài hệ thống

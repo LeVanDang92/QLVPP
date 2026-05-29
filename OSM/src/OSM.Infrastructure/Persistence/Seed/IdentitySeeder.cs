@@ -86,13 +86,14 @@ namespace OSM.Infrastructure.Persistence.Seed
             dbContext.Menus.Add(new Menus
             {
                 MenuId = Constants.MENU_ID_00,
-                MenuName = "Base Menu",
-                MenuShortName = "Base Menu",
+                MenuName = "Home",
+                MenuShortName = "Home",
                 MenuType = Constants.MENU_TYPE_M,
                 MenuGroup = Constants.MENU_GROUP,
-                MenuUrl = null,
-                IconIndex = "0",
+                MenuUrl = "/dashboard",
+                IconClass = "ti ti-smart-home",
                 CreatedAt = DateTimeOffset.UtcNow,
+                Closable = false,
                 CreatedBy = "seed"
             });
 

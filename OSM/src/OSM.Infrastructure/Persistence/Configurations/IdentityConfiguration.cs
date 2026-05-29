@@ -1,10 +1,25 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using OSM.Domain.Entities.Products;
 using OSM.Infrastructure.Identity;
 
 namespace OSM.Infrastructure.Persistence.Configurations
 {
+
+    public sealed class AppUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
+    {
+        public void Configure(EntityTypeBuilder<ApplicationUser> builder)
+        {
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.FullName).HasMaxLength(100);
+            builder.Property(x => x.PasswordShow).HasMaxLength(50);
+            builder.Property(x => x.Department).HasMaxLength(100);
+            builder.Property(x => x.CreatedBy).HasMaxLength(100);
+            builder.Property(x => x.ModifiedBy).HasMaxLength(100);
+            builder.Property(x => x.IsActive).HasDefaultValue(true);
+            builder.HasMany(x => x.RefreshTokens).WithOne(x => x.User).HasForeignKey(x => x.UserId);
+        }
+    }
+
     public sealed class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
     {
         public void Configure(EntityTypeBuilder<RefreshToken> builder)

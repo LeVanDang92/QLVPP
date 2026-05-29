@@ -3,6 +3,7 @@ import { Component, inject, signal } from '@angular/core';
 import { PageTabService } from '../../tabs/page-tab.service';
 import { APP_MENU_SECTIONS } from '../menu.data';
 import { MenuItem } from '../menu-item.model';
+import { AuthenticationService } from '../../../../features/Auth/services/authentication.service';
 
 @Component({
   selector: '[appMobileMenu]',
@@ -15,7 +16,9 @@ export class MobileMenuComponent {
   private readonly pageTabs = inject(PageTabService);
   private readonly openedIdsSignal = signal<Set<string>>(new Set<string>());
 
-  readonly sections = APP_MENU_SECTIONS;
+  authService = inject(AuthenticationService);
+
+  readonly sections = this.authService.menus;
   readonly activePath = this.pageTabs.activePath;
 
   hasChildren(item: MenuItem): boolean {

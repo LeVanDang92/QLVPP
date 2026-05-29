@@ -59,6 +59,18 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddAppHealthChecks(builder.Configuration);
 
+// Cấu hình CORS để cho phép frontend Angular truy cập API
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:4200") // Thay đổi thành URL của frontend Angular
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
@@ -82,6 +94,7 @@ else
 }
 
 app.UseHttpsRedirection();
+app.UseCors();
 
 app.UseAuthentication(); // xác thực user là ai.
 app.UseAuthorization(); // kiểm tra user có quyền làm gì.

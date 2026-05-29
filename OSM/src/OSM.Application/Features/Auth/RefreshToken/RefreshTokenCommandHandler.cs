@@ -6,7 +6,7 @@ namespace OSM.Application.Features.Auth.RefreshToken
 {
     public sealed class RefreshTokenCommandHandler(IIdentityService identityService) : IRequestHandler<RefreshTokenCommand, Result<TokenResponse>>
     {
-        public Task<Result<TokenResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
-            => identityService.RefreshTokenAsync(request.RefreshToken, cancellationToken);
+        public async Task<Result<TokenResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
+            => await identityService.RefreshTokenAsync(request.RefreshToken, cancellationToken);
     }
 }

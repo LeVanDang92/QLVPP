@@ -1,0 +1,89 @@
+<app-setup-page-layout
+  breadcrumb="{{ breadcrumb() }}"
+  title="{{ title() }}"
+  sectionTitle="{{ sectionTitle() }}"
+
+  [createDisabled]="isSaving()"
+  [updateDisabled]="!selectedUser() || isSaving()"
+  [deleteDisabled]="!selectedUser() || isSaving()"
+  [resetDisabled]="isSaving()"
+
+  (create)="onCreate()"
+  (update)="onUpdate()"
+  (delete)="onDelete()"
+  (reset)="onReset()">
+
+  <div class="user-setup-container">
+    <div class="detail-card">
+      <form [formGroup]="form" class="user-form">
+        <div class="form-row">
+          <label>User ID: <span>*</span></label>
+          <input type="text" formControlName="userId" />
+        </div>
+
+        <div class="form-row">
+          <label>User Name: <span>*</span></label>
+          <input type="text" formControlName="userName" />
+        </div>
+
+        <div class="form-row two-columns">
+          <label>Password: <span>*</span></label>
+          <input type="password" formControlName="passwordShow" [type]="form.get('isShowPassword')?.value ? 'text' : 'password'" />
+
+          <label class="checkbox-label">
+            Show password:
+          </label>
+          <input type="checkbox" formControlName="isShowPassword"/>
+        </div>
+
+        <div class="form-row">
+          <label>E-Mail:</label>
+          <input type="text" formControlName="email" />
+        </div>
+
+        <div class="form-row two-fields">
+          <label>Department: <span>*</span></label>
+          <select formControlName="department">
+            <option value="">Select...</option>
+            <option value="IT">IT</option>
+            <option value="HR">HR</option>
+            <option value="Production">Production</option>
+          </select>
+
+          <label>Role: <span>*</span></label>
+          <select formControlName="role">
+            <option value="">Select...</option>
+            <option value="ALL">ALL</option>
+            <option value="SITE_A">SITE A</option>
+            <option value="SITE_B">SITE B</option>
+          </select>
+        </div>
+      </form>
+    </div>
+
+    <div class="grid-card">
+      <h3>User List</h3>
+
+      <table class="user-table">
+        <thead>
+          <tr>
+            <th>User ID</th>
+            <th>User Name</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (user of users(); track user.userId) {
+            <tr
+              [class.selected]="selectedUser()?.userId === user.userId"
+              (click)="selectUser(user)">
+              <td>{{ user.userId }}</td>
+              <td>{{ user.userName }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</app-setup-page-layout>

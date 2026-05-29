@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using OSM.Application.Abstractions.Authentication;
-using OSM.Infrastructure.Identity;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -13,12 +12,14 @@ namespace OSM.Infrastructure.Authentication
     {
         private readonly JwtOptions _options = options.Value;
 
-        public string CreateAccessToken(string userId, string userName, IEnumerable<string> roles, IEnumerable<string> permissions)
+        public string CreateAccessToken(string userId, string userName,string fullName, IEnumerable<string> roles, IEnumerable<string> permissions)
         {
             var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.Sub, userId),
             new(JwtRegisteredClaimNames.UniqueName, userName),
+            new("fullName", fullName),
+
             new(ClaimTypes.NameIdentifier, userId),
             new(ClaimTypes.Name, userName)
         };
@@ -27,7 +28,7 @@ namespace OSM.Infrastructure.Authentication
             claims.AddRange(permissions.Select(permission => new Claim("permission", permission)));
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256); // ma hoa token bang HMAC-SHA256 algorithm
 
             var token = new JwtSecurityToken(
                 issuer: _options.Issuer,

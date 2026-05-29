@@ -1,0 +1,33 @@
+<div class="setup-toolbar">
+  <button
+    type="button"
+    class="btn btn-create"
+    [disabled]="createDisabled()"
+    (click)="create.emit()">
+    Create
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-update"
+    [disabled]="updateDisabled()"
+    (click)="update.emit()">
+    Update
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-delete"
+    [disabled]="deleteDisabled()"
+    (click)="delete.emit()">
+    Delete
+  </button>
+
+  <button
+    type="button"
+    class="btn btn-reset"
+    [disabled]="resetDisabled()"
+    (click)="reset.emit()">
+    Reset
+  </button>
+</div>

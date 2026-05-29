@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, HostListener } from '@angular/core';
+import { AfterViewInit, Component, HostListener, inject } from '@angular/core';
 import { HorizontalMenuComponent } from '../menu/horizontal-menu/horizontal-menu.component';
+import { AuthenticationService } from '../../../features/Auth/services/authentication.service';
 
 @Component({
   selector: 'app-header',
@@ -12,6 +13,8 @@ export class HeaderComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.hideGlobalLoader();
   }
+
+  authService = inject(AuthenticationService);
 
   @HostListener('click', ['$event'])
   handleClick(event: MouseEvent): void {

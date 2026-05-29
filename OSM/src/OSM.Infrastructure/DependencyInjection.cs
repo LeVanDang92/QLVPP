@@ -120,11 +120,12 @@ namespace OSM.Infrastructure
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
+                    options.SaveToken = true;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
                         ValidateAudience = true,
-                        ValidateLifetime = true,
+                        ValidateLifetime = true, // kiểm tra hết hạn token
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = jwtOptions.Issuer,
                         ValidAudience = jwtOptions.Audience,
@@ -141,6 +142,7 @@ namespace OSM.Infrastructure
                             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                             context.Response.ContentType = "application/problem+json";
 
+                            // Chưa đăng nhập, thiếu token, token sai, token hết hạn
                             return context.Response.WriteAsync(JsonSerializer.Serialize(new
                             {
                                 type = "https://httpstatuses.com/401",
@@ -156,6 +158,7 @@ namespace OSM.Infrastructure
                             context.Response.StatusCode = StatusCodes.Status403Forbidden;
                             context.Response.ContentType = "application/problem+json";
 
+                            //  Đã đăng nhập rồi, token hợp lệ, nhưng không có quyền
                             return context.Response.WriteAsync(JsonSerializer.Serialize(new
                             {
                                 type = "https://httpstatuses.com/403",

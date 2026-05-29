@@ -3,6 +3,7 @@ import { Component, signal, inject } from '@angular/core';
 import { PageTabService } from '../../tabs/page-tab.service';
 import { APP_MENU_SECTIONS } from '../menu.data';
 import { MenuItem } from '../menu-item.model';
+import { AuthenticationService } from '../../../../features/Auth/services/authentication.service';
 
 @Component({
   selector: '[appHorizontalMenu]',
@@ -15,7 +16,11 @@ export class HorizontalMenuComponent {
   private readonly pageTabs = inject(PageTabService);
   private readonly openedIdsSignal = signal<Set<string>>(new Set<string>());
 
-  readonly menuItems = APP_MENU_SECTIONS.flatMap((section) => section.items);
+  authService = inject(AuthenticationService);
+
+  menuSections = this.authService.menus;
+
+  readonly menuItems = this.menuSections().flatMap((section) => section.items);
   readonly activePath = this.pageTabs.activePath;
 
   hasChildren(item: MenuItem): boolean {

@@ -1,6 +1,8 @@
 /* Global overrides for the Angular template. */
 :root {
   color-scheme: light;
+  --app-header-height: 60px;
+  --app-tabs-height: 38px;
 }
 
 .page-wrapper .content {
@@ -19,12 +21,12 @@
 app-page-tabs {
   display: block;
   position: fixed;
-  top: 52px;
+  top: var(--app-header-height);
   right: 0;
   left: 0;
   z-index: 998;
 }
 
-.main-wrapper .page-wrapper {
-  padding-top: 88px;
+.page-wrapper.page-wrapper-with-tabs {
+  padding-top: calc(var(--app-header-height) + 12px ) !important;
 }

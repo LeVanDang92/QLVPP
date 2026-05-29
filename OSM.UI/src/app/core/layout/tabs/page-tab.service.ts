@@ -21,10 +21,20 @@ export class PageTabService {
   private readonly router = inject(Router);
   private readonly storageKey = 'osm.page-tabs.v1';
   private readonly defaultTab: PageTab = {
-    title: 'Dashboard',
+    title: 'Home',
     path: DASHBOARD_TAB_PATH,
     closable: false,
   };
+
+  private readonly ignoredTabPaths = [
+  '/auth/login',
+  '/login'
+  ];
+
+  private shouldIgnoreTab(path: string): boolean {
+  const normalizedPath = this.normalizePath(path);
+  return this.ignoredTabPaths.includes(normalizedPath);
+}
 
   private readonly restoredState = this.loadState();
   private readonly tabsSignal = signal<PageTab[]>(this.restoredState.tabs);
@@ -53,6 +63,11 @@ export class PageTabService {
       ...tab,
       path: this.normalizePath(tab.path),
     };
+
+    if (this.shouldIgnoreTab(normalizedTab.path)) {
+      this.router.navigateByUrl(normalizedTab.path);
+      return;
+    }
 
     const exists = this.tabsSignal().some((item) => item.path === normalizedTab.path);
 
@@ -180,7 +195,7 @@ export class PageTabService {
         );
       })
       .map((item) => ({
-        title: item.path === DASHBOARD_TAB_PATH ? 'Dashboard' : item.title,
+        title: item.path === DASHBOARD_TAB_PATH ? 'Home' : item.title,
         path: this.normalizePath(item.path),
         closable: item.path !== DASHBOARD_TAB_PATH && item.closable !== false,
       }));

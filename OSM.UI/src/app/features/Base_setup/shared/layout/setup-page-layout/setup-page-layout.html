@@ -1,0 +1,37 @@
+<div class="setup-page">
+  <div class="breadcrumb">
+    <div class="top-action-left">
+      @if (title()) {
+        <span class="page-title">{{ title() }}</span>
+      }
+    </div>
+    <div class="top-action-right">
+      {{ breadcrumb() }}
+    </div>
+  </div>
+
+  <div class="top-action-bar">
+    <app-setup-toolbar
+      [createDisabled]="createDisabled()"
+      [updateDisabled]="updateDisabled()"
+      [deleteDisabled]="deleteDisabled()"
+      [resetDisabled]="resetDisabled()"
+
+      (create)="create.emit()"
+      (update)="update.emit()"
+      (delete)="delete.emit()"
+      (reset)="reset.emit()">
+    </app-setup-toolbar>
+  </div>
+
+  @if (sectionTitle()) {
+    <div class="section-header">
+      <span class="arrow">▶</span>
+      <span>{{ sectionTitle() }}</span>
+    </div>
+  }
+
+  <div class="setup-content">
+    <ng-content></ng-content>
+  </div>
+</div>

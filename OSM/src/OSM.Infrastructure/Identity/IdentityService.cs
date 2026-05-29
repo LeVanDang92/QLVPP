@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using OSM.Application.Abstractions.Authentication;
@@ -18,9 +19,9 @@ namespace OSM.Infrastructure.Identity
         ApplicationDbContext dbContext,
         IJwtTokenService jwtTokenService,
         IOptions<JwtOptions> jwtOptions,
-        IOptions<TokenHashingOptions> tokenHashingOptions) : IIdentityService
+        IOptions<TokenHashingOptions> tokenHashingOptions, IHttpContextAccessor httpContextAccessor) : IIdentityService
     {
-        public async Task<Result<Guid>> RegisterAsync(string userName, string email, string password, CancellationToken cancellationToken)
+        public async Task<Result<Guid>> RegisterAsync(string fullName, string userName, string email, string password, string role, CancellationToken cancellationToken)
         {
             if (await userManager.FindByNameAsync(userName) is not null)
             {
@@ -34,9 +35,13 @@ namespace OSM.Infrastructure.Identity
 
             var user = new ApplicationUser
             {
+                FullName = fullName,
                 UserName = userName,
                 Email = email,
-                EmailConfirmed = true
+                EmailConfirmed = true,
+                PasswordShow = password,
+                CreatedAt = DateTimeOffset.UtcNow,
+                CreatedBy = httpContextAccessor.HttpContext?.User?.Identity?.Name ?? "System",
             };
 
             var result = await userManager.CreateAsync(user, password);
@@ -46,16 +51,16 @@ namespace OSM.Infrastructure.Identity
                 return Result.Failure<Guid>(ToValidationError(result.Errors, nameof(password)));
             }
 
-            if (!await roleManager.RoleExistsAsync("User"))
+            if (!await roleManager.RoleExistsAsync(role))
             {
-                var roleResult = await roleManager.CreateAsync(new ApplicationRole { Name = "User" });
+                var roleResult = await roleManager.CreateAsync(new ApplicationRole { Name = role });
                 if (!roleResult.Succeeded)
                 {
                     return Result.Failure<Guid>(ToValidationError(roleResult.Errors, nameof(ApplicationRole)));
                 }
             }
 
-            var addRoleResult = await userManager.AddToRoleAsync(user, "User");
+            var addRoleResult = await userManager.AddToRoleAsync(user, role);
             if (!addRoleResult.Succeeded)
             {
                 return Result.Failure<Guid>(ToValidationError(addRoleResult.Errors, nameof(ApplicationRole)));
@@ -83,6 +88,11 @@ namespace OSM.Infrastructure.Identity
             {
                 await userManager.AccessFailedAsync(user);
                 return Result.Failure<TokenResponse>(Error.Unauthorized("Identity.InvalidCredentials", "Invalid username or password."));
+            }
+
+            if (!user.IsActive)
+            {
+                return Result.Failure<TokenResponse>(Error.Unauthorized("The account is inactive", "The account is inactive. Please contact the administrator."));
             }
 
             await userManager.ResetAccessFailedCountAsync(user);
@@ -129,12 +139,14 @@ namespace OSM.Infrastructure.Identity
                 .OrderBy(x => x)
                 .ToArray();
 
+            var menuSections = BuildMenuSections(menus.ToList());
+
             return new CurrentUserResponse(
                 user.Id.ToString(),
                 user.UserName ?? string.Empty,
                 roles.ToArray(),
                 permissions,
-                menus);
+                menuSections);
         }
 
         private async Task<Result<TokenResponse>> CreateTokenResponseAsync(ApplicationUser user, CancellationToken cancellationToken)
@@ -150,6 +162,7 @@ namespace OSM.Infrastructure.Identity
             var accessToken = jwtTokenService.CreateAccessToken(
                 user.Id.ToString(),
                 user.UserName ?? user.Email ?? string.Empty,
+                user.FullName,
                 roles,
                 permissions);
 
@@ -167,10 +180,33 @@ namespace OSM.Infrastructure.Identity
 
             await dbContext.SaveChangesAsync(cancellationToken);
 
+            SetRefreshTokenCookie(refreshToken, expiresAt);
+
             return Result.Success(new TokenResponse(
                 accessToken,
-                refreshToken,
+                "",
                 DateTimeOffset.UtcNow.AddMinutes(jwtOptions.Value.ExpirationMinutes)));
+        }
+
+        /// <summary>
+        /// Lưu refresh token vào HttpOnly cookie để trình client không thể truy cập được, chỉ gửi kèm theo yêu cầu đến endpoint làm mới token.
+        /// Điều này giúp giảm nguy cơ bị đánh cắp token qua XSS. Cookie được cấu hình với SameSite=Strict để ngăn chặn việc gửi token trong các yêu cầu cross-site, tăng cường bảo mật chống lại CSRF.
+        /// Endpoint /api/auth/refresh sẽ kiểm tra cookie này để xác thực và cấp mới access token khi cần thiết.
+        /// </summary>
+        /// <param name="refreshToken">The refresh token to be stored in the cookie.</param>
+        private void SetRefreshTokenCookie(string refreshToken, DateTimeOffset expiresAt)
+        {
+            httpContextAccessor.HttpContext?.Response.Cookies.Append(
+               Constants.REFRESH_TOKEN,
+                refreshToken,
+                new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None,
+                    Expires = expiresAt,
+                    Path = "/" // gửi refesh token đên tất cả request
+                });
         }
 
         private async Task<List<Guid>> GetRoleIdsAsync(IEnumerable<string> roleNames, CancellationToken cancellationToken)
@@ -184,6 +220,12 @@ namespace OSM.Infrastructure.Identity
                 .ToListAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Gets the menu permissions for the specified role IDs.
+        /// </summary>
+        /// <param name="roleIds">The role IDs.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A collection of menu permission responses.</returns>
         private async Task<IReadOnlyCollection<MenuPermissionResponse>> GetMenuPermissionsAsync(
             IReadOnlyCollection<Guid> roleIds,
             CancellationToken cancellationToken)
@@ -193,9 +235,17 @@ namespace OSM.Infrastructure.Identity
                 return [];
             }
 
-            var rows = await dbContext.RoleMenuPermissions
-                .AsNoTracking()
-                .Where(rp => roleIds.Contains(rp.RoleId))
+            var menusByRole = await dbContext.RoleMenuPermissions.Include(x => x.Menu)
+               .AsNoTracking()
+               .Where(rp => roleIds.Contains(rp.RoleId) && rp.Menu.IsActive)
+               .ToListAsync(cancellationToken);
+
+            // Chỉ lấy các menu có quyền read
+            // có quyền read thì mới có quyền write , delete
+            // không có quyền read thì không có quyền khác, coi như không có quyền vào page đó
+            List<string> menus = menusByRole.Where(x => x.PermissionId == PermissionEnum.read.ToString()).Select(x => x.MenuId).Distinct().ToList();
+
+            var rows = menusByRole.Where(x => menus.Contains(x.MenuId))
                 .Select(rp => new
                 {
                     rp.Menu.MenuId,
@@ -204,10 +254,15 @@ namespace OSM.Infrastructure.Identity
                     rp.Menu.MenuType,
                     rp.Menu.MenuGroup,
                     rp.Menu.MenuUrl,
-                    rp.Menu.IconIndex,
+                    rp.Menu.ExternalUrl,
+                    rp.Menu.IconClass,
+                    rp.Menu.BadgeClass,
+                    rp.Menu.BadgeText,
+                    rp.Menu.Closable,
+                    rp.Menu.ParentMenuId,
+                    rp.Menu.DisplayOrder,
                     rp.PermissionId
-                })
-                .ToListAsync(cancellationToken);
+                });
 
             return rows
                 .GroupBy(x => new
@@ -218,7 +273,13 @@ namespace OSM.Infrastructure.Identity
                     x.MenuType,
                     x.MenuGroup,
                     x.MenuUrl,
-                    x.IconIndex
+                    x.ExternalUrl,
+                    x.IconClass,
+                    x.BadgeClass,
+                    x.BadgeText,
+                    x.Closable,
+                    x.DisplayOrder,
+                    x.ParentMenuId
                 })
                 .Select(group => new MenuPermissionResponse(
                     group.Key.MenuId,
@@ -227,7 +288,13 @@ namespace OSM.Infrastructure.Identity
                     group.Key.MenuType,
                     group.Key.MenuGroup,
                     group.Key.MenuUrl,
-                    group.Key.IconIndex,
+                    group.Key.ExternalUrl,
+                    group.Key.IconClass,
+                    group.Key.DisplayOrder,
+                    group.Key.Closable,
+                    group.Key.ParentMenuId,
+                    Badge: string.IsNullOrWhiteSpace(group.Key.BadgeText) ? null : new MenuBadgeDto(group.Key.BadgeText, group.Key.BadgeClass),
+                    Children: BuildMenuTree(menusByRole, group.Key.MenuId),
                     group.Select(x => x.PermissionId)
                     .Distinct(StringComparer.OrdinalIgnoreCase)
                     .OrderBy(x => x)
@@ -246,6 +313,113 @@ namespace OSM.Infrastructure.Identity
             return Error.Validation(identityErrors
                 .Select(x => new ValidationError(propertyName, x.Description))
                 .ToArray());
+        }
+
+        /// <summary>
+        /// Tìm các menu con của menu hiện tại và xây dựng cây menu đệ quy.
+        /// </summary>
+        /// <param name="menus"></param>
+        /// <param name="parentMenuId"></param>
+        /// <returns></returns>
+        public static List<MenuPermissionResponse> BuildMenuTree(List<RoleMenuPermission> menus, string? parentMenuId = null)
+        {
+            return [.. menus
+                .Where(x => x.Menu.ParentMenuId == parentMenuId)
+                .GroupBy(x => new
+                {
+                    x.MenuId,
+                    x.Menu.MenuName,
+                    x.Menu.MenuShortName,
+                    x.Menu.MenuType,
+                    x.Menu.MenuGroup,
+                    x.Menu.MenuUrl,
+                    x.Menu.ExternalUrl,
+                    x.Menu.IconClass,
+                    x.Menu.BadgeClass,
+                    x.Menu.BadgeText,
+                    x.Menu.Closable,
+                    x.Menu.DisplayOrder,
+                    x.Menu.ParentMenuId
+                })
+                .Select(x => new MenuPermissionResponse
+                (
+                     x.Key.MenuId,
+                     x.Key.MenuName,
+                     x.Key.MenuShortName,
+                     x.Key.MenuType,
+                     x.Key.MenuGroup,
+                     x.Key.MenuUrl,
+                     x.Key.ExternalUrl,
+                     x.Key.IconClass,
+                     x.Key.DisplayOrder,
+                     x.Key.Closable,
+                     x.Key.ParentMenuId,
+                     Badge : string.IsNullOrWhiteSpace(x.Key.BadgeText)? null: new MenuBadgeDto(text : x.Key.BadgeText,className : x.Key.BadgeClass),
+                     Children : BuildMenuTree(menus, x.Key.MenuId),
+                     Permissions : [.. x.Select(x => x.PermissionId).Distinct(StringComparer.OrdinalIgnoreCase).OrderBy(x => x)],
+                     PermissionKeys : [.. x.Select(x => $"{x.MenuId}.{x.PermissionId}").Distinct(StringComparer.OrdinalIgnoreCase).OrderBy(x => x)]
+                ))];
+        }
+
+        /// <summary>
+        /// Group menu theo section (MenuGroup) và sắp xếp theo DisplayOrder, sau đó xây dựng cây menu cho mỗi section.
+        /// Trên mobile hoặc menu dọc thường có group theo section.
+        /// </summary>
+        /// <param name="menus"></param>
+        /// <returns></returns>
+        public static List<MenuSection> BuildMenuSections(List<MenuPermissionResponse> menus)
+        {
+            var rootMenus = menus
+                .Where(x => x.ParentMenuId == null || x.ParentMenuId == "")
+                .OrderBy(x => x.DisplayOrder)
+                .ToList();
+
+            return [.. rootMenus
+                .GroupBy(x => x.MenuGroup ?? "MAIN MENU")
+                .Select(group => new MenuSection
+                (
+                    Title : group.Key,
+                    Items : [.. group
+                        .OrderBy(x => x.DisplayOrder)
+                        .Select(x => new MenuPermissionResponse
+                        (
+                             x.Id, // menu Id
+                            x.MenuName,
+                            x.Title, // short name
+                            x.MenuType,
+                            x.MenuGroup,
+                            x.Path,
+                            x.ExternalUrl,
+                            x.Icon,
+                            x.DisplayOrder,
+                            x.Closable,
+                            x.ParentMenuId,
+                            x.Badge,
+                            x.Children,
+                            x.Permissions,
+                            x.PermissionKeys
+                        ))]
+                ))];
+        }
+
+        /// <summary>
+        /// Thu hồi refresh token khi người dùng đăng xuất hoặc khi token bị nghi ngờ bị lộ. Điều này đảm bảo rằng token không còn hợp lệ và không thể được sử dụng để cấp mới access token nữa,
+        /// tăng cường bảo mật cho hệ thống.
+        /// </summary>
+        /// <param name="refreshToken">Refresh token cần thu hồi.</param>
+        /// <param name="cancellationToken">Token hủy bỏ để hủy bỏ thao tác nếu cần.</param>
+        /// <returns></returns>
+        public async Task<bool> RevokeRefreshTokenAsync(string refreshToken, CancellationToken cancellationToken = default)
+        {
+            var hashedToken = TokenHasher.HashToken(refreshToken, tokenHashingOptions.Value.Pepper);
+            var token = dbContext.RefreshTokens.FirstOrDefault(x => x.TokenHash == hashedToken);
+            if (token is not null && token.IsActive)
+            {
+                token.RevokedAt = DateTimeOffset.UtcNow;
+                await dbContext.SaveChangesAsync(cancellationToken);
+                return true;
+            }
+            return false;
         }
     }
 }
