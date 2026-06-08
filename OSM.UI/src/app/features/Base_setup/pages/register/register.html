@@ -3,7 +3,7 @@
   title="{{ title() }}"
   sectionTitle="{{ sectionTitle() }}"
 
-  [createDisabled]="isSaving()"
+  [createDisabled]="!!selectedUser()"
   [updateDisabled]="!selectedUser() || isSaving()"
   [deleteDisabled]="!selectedUser() || isSaving()"
   [resetDisabled]="isSaving()"
@@ -36,28 +36,31 @@
           <input type="checkbox" formControlName="isShowPassword"/>
         </div>
 
-        <div class="form-row">
-          <label>E-Mail:</label>
+        <div class="form-row two-columns">
+          <label>E-Mail:<span>*</span></label>
           <input type="text" formControlName="email" />
+
+          <label class="checkbox-label"> Is Active:</label>
+          <input type="checkbox" formControlName="isActive"/>
         </div>
 
         <div class="form-row two-fields">
-          <label>Department: <span>*</span></label>
+          <label>Department:</label>
           <select formControlName="department">
             <option value="">Select...</option>
-            <option value="IT">IT</option>
-            <option value="HR">HR</option>
-            <option value="Production">Production</option>
+            @for (dept of departments(); track dept.data_Code) {
+              <option [value]="dept.data_Code">{{ dept.data_Value }}</option>
+            }
           </select>
 
           <label>Role: <span>*</span></label>
           <select formControlName="role">
-            <option value="">Select...</option>
-            <option value="ALL">ALL</option>
-            <option value="SITE_A">SITE A</option>
-            <option value="SITE_B">SITE B</option>
+            @for (role of roles(); track role.id) {
+              <option [value]="role.name">{{ role.name }}</option>
+            }
           </select>
         </div>
+
       </form>
     </div>
 
@@ -78,7 +81,7 @@
               [class.selected]="selectedUser()?.userId === user.userId"
               (click)="selectUser(user)">
               <td>{{ user.userId }}</td>
-              <td>{{ user.userName }}</td>
+              <td>{{ user.fullName }}</td>
             </tr>
           }
         </tbody>

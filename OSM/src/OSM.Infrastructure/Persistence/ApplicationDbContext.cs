@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using OSM.Application.Abstractions.Data;
 using OSM.Domain.Common;
+using OSM.Domain.Entities;
 using OSM.Domain.Entities.Products;
 using OSM.Infrastructure.Audit;
 using OSM.Infrastructure.Identity;
@@ -19,6 +20,8 @@ namespace OSM.Infrastructure.Persistence
         public DbSet<RoleMenuPermission> RoleMenuPermissions => Set<RoleMenuPermission>();
         public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
         public DbSet<Menus> Menus => Set<Menus>();
+        public DbSet<Code_Data> Code_Data => Set<Code_Data>();
+        public DbSet<Code_Table> Code_Table => Set<Code_Table>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

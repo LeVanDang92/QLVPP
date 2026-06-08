@@ -16,6 +16,7 @@ namespace OSM.API.Controllers
     public sealed class AuthController(ISender sender, ICurrentUserService currentUserService, IIdentityService identityService) : ApiAuthBaseController
     {
         [HttpPost("register")]
+        [Authorize]
         public async Task<IActionResult> Register(RegisterCommand command, CancellationToken cancellationToken)
         {
             var result = await sender.Send(command, cancellationToken);

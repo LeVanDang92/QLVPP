@@ -2,5 +2,5 @@
 
 namespace OSM.Application.Features.Auth.Register
 {
-    public sealed record RegisterCommand(string FullName,string UserName, string Email, string Password,string Role) : ICommand<Guid>;
+    public sealed record RegisterCommand(string FullName,string UserName, string Email, string PasswordShow, string Role,string Department,bool IsActive) : ICommand<Guid>;
 }

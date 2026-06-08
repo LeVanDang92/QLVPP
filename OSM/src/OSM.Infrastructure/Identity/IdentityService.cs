@@ -21,7 +21,7 @@ namespace OSM.Infrastructure.Identity
         IOptions<JwtOptions> jwtOptions,
         IOptions<TokenHashingOptions> tokenHashingOptions, IHttpContextAccessor httpContextAccessor) : IIdentityService
     {
-        public async Task<Result<Guid>> RegisterAsync(string fullName, string userName, string email, string password, string role, CancellationToken cancellationToken)
+        public async Task<Result<Guid>> RegisterAsync(string fullName, string userName, string email, string password, string role, string department, bool isActive, CancellationToken cancellationToken)
         {
             if (await userManager.FindByNameAsync(userName) is not null)
             {
@@ -40,6 +40,8 @@ namespace OSM.Infrastructure.Identity
                 Email = email,
                 EmailConfirmed = true,
                 PasswordShow = password,
+                Department = department,
+                IsActive = isActive,
                 CreatedAt = DateTimeOffset.UtcNow,
                 CreatedBy = httpContextAccessor.HttpContext?.User?.Identity?.Name ?? "System",
             };

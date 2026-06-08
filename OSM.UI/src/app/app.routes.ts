@@ -24,25 +24,25 @@ export const routes: Routes = [
         path: 'role',
         loadComponent: () =>
           import('./features/Base_setup/pages/role/role').then((m) => m.Role),
-           data : { breadcrumb: 'Settings > Role Setup' , title: 'Role Setup' , sectionTitle: 'Role Detail Information' }
+           data : { breadcrumb: 'Settings ➜ Role Setup' , title: 'Role Setup' , sectionTitle: 'Role Detail Information' }
       },
       {
         path: 'menu',
         loadComponent: () =>
           import('./features/Base_setup/pages/menu/menu').then((m) => m.Menu),
-           data : { breadcrumb: 'Settings > Menu Setup' , title: 'Menu Setup' , sectionTitle: 'Menu Detail Information' }
+           data : { breadcrumb: 'Settings ➜ Menu Setup' , title: 'Menu Setup' , sectionTitle: 'Menu Detail Information' }
       },
        {
         path: 'menurole',
         loadComponent: () =>
           import('./features/Base_setup/pages/menurole/menurole').then((m) => m.Menurole),
-           data : { breadcrumb: 'Settings > Menu Role Setup' , title: 'Menu Role Setup' , sectionTitle: 'Menu Role Detail Information' }
+           data : { breadcrumb: 'Settings ➜ Menu Role Setup' , title: 'Menu Role Setup' , sectionTitle: 'Menu Role Detail Information' }
       },
       {
         path :'register',
         loadComponent: () =>
           import('./features/Base_setup/pages/register/register').then((m) => m.Register),
-           data : { breadcrumb: 'Settings > User Setup' , title: 'User Setup' , sectionTitle: 'User Detail Information' }
+           data : { breadcrumb: 'Settings ➜ User Setup' , title: 'User Setup' , sectionTitle: 'User Detail Information' }
       },
       {
         path: 'workspace/:slug',

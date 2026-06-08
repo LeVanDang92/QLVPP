@@ -10,14 +10,17 @@ namespace OSM.Application.Features.Auth.Register
                 .NotEmpty()
                 .MaximumLength(100);
 
+            RuleFor(x => x.Role)
+              .NotEmpty();
+
             RuleFor(x => x.Email)
                 .NotEmpty()
                 .EmailAddress()
                 .MaximumLength(200);
 
-            RuleFor(x => x.Password)
+            RuleFor(x => x.PasswordShow)
                 .NotEmpty()
-                .MinimumLength(8);
+                .MinimumLength(6);
         }
     }
 }

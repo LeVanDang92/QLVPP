@@ -1,16 +1,28 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { User } from '../../shared/models/User';
 import { SetupPageLayout } from '../../shared/layout/setup-page-layout/setup-page-layout';
 import { ActivatedRoute } from '@angular/router';
+import { UserService } from '../../services/user.service';
+import { RoleService } from '../../services/role.service';
+import { Role } from '../../shared/models/Role';
+import { CodedataService } from '../../../../core/services/codedata.service';
+import { CodeDataDto } from '../../../../core/models/codeDataDto';
+import { FormErrorDirective } from '../../../../shared/Directive/form-error.directive';
+import { FormSignalService } from '../../../../shared/services/FormSignalService';
 
 @Component({
   selector: 'app-register',
-  imports: [SetupPageLayout, ReactiveFormsModule],
+  imports: [SetupPageLayout, ReactiveFormsModule, FormErrorDirective],
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })
-export class Register {
+export class Register implements OnInit {
+
+  private userService = inject(UserService);
+  private roleService = inject(RoleService);
+  private codeDataService = inject(CodedataService)
+  private formSignalService = inject(FormSignalService);
 
   private route = inject(ActivatedRoute);
   private fb = inject(FormBuilder);
@@ -22,34 +34,58 @@ export class Register {
   isSaving = signal(false);
   selectedUser = signal<User | null>(null);
 
-   users = signal<User[]>([
-    {
-      userId: '2090905', userName: '송영주', email: 'danglevan@gmail.com', department: 'IT', isActive: true, role: 'SITE_A', createdAt: null, createdBy: null, modifiedAt: null, modifiedBy: null,
-      fullName: null,
-      passwordShow: '12345'
-    },
-    {
-      userId: '2101002', userName: '고재관', email: 'john.doe@gmail.com', department: 'HR', isActive: true, role: 'SITE_B', createdAt: null, createdBy: null, modifiedAt: null, modifiedBy: null,
-      fullName: null,
-      passwordShow: '12345'
-    },
-    {
-      userId: '2121030', userName: 'Jeremy', email: 'jane.smith@gmail.com', department: 'IT', isActive: true, role: 'SITE_A', createdAt: null, createdBy: null, modifiedAt: null, modifiedBy: null,
-      fullName: null,
-      passwordShow: '12345'
-    }
-  ]);
+  users = signal<User[]>([]);
+  roles = signal<Role[]>([]);
+  departments = signal<CodeDataDto[]>([]);
+
+  ngOnInit() {
+    this.loadUsers();
+    this.loadRoles();
+    this.loadCodeData();
+  }
+
+  private loadUsers(): void {
+    this.userService.getUsers().subscribe({
+      next: (users) => this.users.set(users),
+      error: (error) => {
+        console.error('Failed to load users:', error);
+        alert('Failed to load users. Please try again later.');
+      }
+    });
+  }
+
+  private loadRoles(): void {
+    this.roleService.getRoles().subscribe({
+      next: (roles) => this.roles.set(roles),
+      error: (error) => {
+        console.error('Failed to load roles:', error);
+        alert('Failed to load roles. Please try again later.');
+      }
+    });
+  }
+
+  private loadCodeData(): void {
+    this.codeDataService.getCodeData('DEPT').subscribe({
+      next: (codeDatas) => {
+
+         this.departments.set(codeDatas);;
+      },
+      error: (error) => {
+        console.error('Failed to load code data:', error);
+        alert('Failed to load code data. Please try again later.');
+      }
+    });
+  }
 
   form = this.fb.group({
-    userId : ['',Validators.required],
-    userName: ['',Validators.required],
-    fullName: ['',Validators.required],
-    email: ['',[Validators.required, Validators.email]],
-    department: ['',Validators.required],
-    isActive: [true,Validators.required],
-    role: ['',Validators.required],
-    passwordShow: ['',Validators.required,Validators.minLength(6)],
-    isShowPassword : [false]
+    userId: ['', Validators.required],
+    userName: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    department: [''],
+    isActive: [true, Validators.required],
+    role: ['', Validators.required],
+    passwordShow: ['', [Validators.required, Validators.minLength(6)]],
+    isShowPassword: [false],
   });
 
   selectUser(user: User): void {
@@ -59,7 +95,9 @@ export class Register {
 
   save(): void {
     if (this.form.invalid) {
-      alert('Please fill in all required fields correctly.');
+     // alert('Please fill in all required fields correctly.');
+      this.form.markAllAsTouched();
+      this.formSignalService.triggerSave();
       return;
     }
 
@@ -71,38 +109,33 @@ export class Register {
       department: this.form.value.department || '',
       isActive: this.form.value.isActive ?? true,
       role: this.form.value.role || '',
-      userId: this.selectedUser()?.userId || this.form.value.userId || this.generateId(),
-      fullName: this.form.value.fullName || '',
-      passwordShow: '1234567890',
+      userId: this.selectedUser()?.userId || this.form.value.userId || '',
+      fullName:  '',
+      passwordShow: this.form.value.passwordShow || '',
       createdAt: this.selectedUser()?.createdAt || new Date(),
       createdBy: this.selectedUser()?.createdBy || 'Admin',
       modifiedAt: new Date(),
-      modifiedBy: 'Admin'
+      modifiedBy: 'Admin',
     };
 
     const existingUsers = this.users();
-    const userIndex = existingUsers.findIndex(u => u.userId === userToSave.userId);
+    const userIndex = existingUsers.findIndex((u) => u.userId === userToSave.userId);
 
     if (userIndex > -1) {
       // Update existing user
       existingUsers[userIndex] = userToSave;
+
+      this.users.set([...existingUsers]);
+      this.selectedUser.set(null);
+      this.form.reset({ isActive: true });
     } else {
       // Add new user
-      existingUsers.push(userToSave);
+      this.AddNewUser(userToSave);
     }
-
-    this.users.set([...existingUsers]);
-    this.selectedUser.set(null);
-    this.form.reset({ isActive: true });
-  }
-
-  private generateId(): string {
-    return Math.random().toString(36).substr(2, 9);
   }
 
   onCreate(): void {
-    this.selectedUser.set(null);
-    this.form.reset({ isActive: true });
+    this.save();
   }
 
   onUpdate(): void {
@@ -119,18 +152,32 @@ export class Register {
       return;
     }
     const existingUsers = this.users();
-    const updatedUsers = existingUsers.filter(u => u.userId !== this.selectedUser()?.userId);
+    const updatedUsers = existingUsers.filter((u) => u.userId !== this.selectedUser()?.userId);
     this.users.set(updatedUsers);
     this.selectedUser.set(null);
     this.form.reset({ isActive: true });
   }
 
   onReset(): void {
-    if (this.selectedUser()) {
-      this.form.patchValue(this.selectedUser()!);
-    } else {
-      this.form.reset({ isActive: true });
-    }
+     this.form.reset({ isActive: true });
+     this.selectedUser.set(null);
   }
 
+  private AddNewUser(user: User): void {
+
+    this.userService.registerUser(user).subscribe({
+      next: (newUserId) => {
+        const updatedUsers = [...this.users(), user];
+        this.users.set(updatedUsers);
+        this.selectedUser.set(null);
+        this.form.reset({ isActive: true });
+        alert('User registered successfully!');
+      },
+      error: (error) => {
+        console.error('Failed to register user:', error);
+        alert('Failed to register user. Please try again later.');
+      }
+    });
+
+  }
 }

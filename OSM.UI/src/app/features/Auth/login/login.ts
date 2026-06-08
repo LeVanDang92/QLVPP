@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
-import { finalize } from 'rxjs/internal/operators/finalize';
+import { finalize } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { PageTabService } from '../../../core/layout/tabs/page-tab.service';
-import { switchMap } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
