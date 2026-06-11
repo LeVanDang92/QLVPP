@@ -12,6 +12,9 @@ export class UserService {
 
   usersApiUrl =  `${environment.apiUrl}/${environment.apiVersion}/usersetting/users`;
   authRegisterUrl = `${environment.apiUrl}/auth/register`;
+  updateUserUrl = `${environment.apiUrl}/${environment.apiVersion}/usersetting/users`;
+  deleteUserUrl = `${environment.apiUrl}/${environment.apiVersion}/usersetting/users`;
+
   private http = inject(HttpClient);
 
   getUsers() : Observable<User[]> {
@@ -27,5 +30,24 @@ export class UserService {
     user.fullName = user.userName;
     user.userName = user.userId;
     return this.http.post<User>(this.authRegisterUrl, user);
+  }
+
+  updateUser (user: User) : Observable<User> {
+
+    const requestUser = {
+      userName: user.userId,
+      fullName: user.userName ?? '',
+      password: user.passwordShow ?? '',
+      email: user.email,
+      isActive: user.isActive,
+      department: user.department,
+      role: user.role ?? ''
+    };
+
+    return this.http.put<User>(`${this.updateUserUrl}/${user.userId}`, requestUser);
+  }
+
+  deleteUser (userId: string) : Observable<void> {
+    return this.http.delete<void>(`${this.deleteUserUrl}/${userId}`);
   }
 }

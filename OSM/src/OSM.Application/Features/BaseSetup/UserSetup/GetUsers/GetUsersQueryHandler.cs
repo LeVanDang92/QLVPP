@@ -24,7 +24,7 @@ namespace OSM.Application.Features.BaseSetup.UserSetup.GetUsers
                             	  
                            FROM [dbo].[AspNetUsers]	U
                            INNER JOIN [dbo].[AspNetUserRoles] UR ON U.Id = UR.UserId
-                           INNER JOIN [dbo].[AspNetRoles] R ON UR.RoleId = R.Id";
+                           INNER JOIN [dbo].[AspNetRoles] R ON UR.RoleId = R.Id ";
 
             var users = await DapperHelper.QueryAsync<UserResponse>(sql);
 

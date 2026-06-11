@@ -11,7 +11,6 @@ public interface IApplicationDbContext
     DbSet<Product> Products { get; }
     DbSet<Code_Table> Code_Table { get; }
     DbSet<Code_Data> Code_Data { get; }
-
     DatabaseFacade Database { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

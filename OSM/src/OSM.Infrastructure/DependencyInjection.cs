@@ -13,6 +13,7 @@ using OSM.Application.Abstractions.Data;
 using OSM.Application.Abstractions.Excel;
 using OSM.Application.Abstractions.Identity;
 using OSM.Application.Abstractions.Messaging;
+using OSM.Application.Abstractions.Services;
 using OSM.Application.Abstractions.Storage;
 using OSM.Application.Common.Emails;
 using OSM.Infrastructure.Authentication;
@@ -25,6 +26,7 @@ using OSM.Infrastructure.Excel;
 using OSM.Infrastructure.Identity;
 using OSM.Infrastructure.Persistence;
 using OSM.Infrastructure.Persistence.Interceptors;
+using OSM.Infrastructure.Services;
 using OSM.Infrastructure.Storage.Synology;
 using System.Text;
 using System.Text.Json;
@@ -176,6 +178,8 @@ namespace OSM.Infrastructure
             services.AddAuthorization();
             services.AddSingleton<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
             services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
+
+            services.AddTransient<IUserService, UserService>();
 
             return services;
         }

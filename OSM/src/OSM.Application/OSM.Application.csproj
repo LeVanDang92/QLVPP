@@ -21,8 +21,6 @@
 
   <ItemGroup>
     <Folder Include="Features\BaseSetup\UserSetup\GetUserById\" />
-    <Folder Include="Features\BaseSetup\UserSetup\DeleteUser\" />
-    <Folder Include="Features\BaseSetup\UserSetup\UpdateUser\" />
   </ItemGroup>
 
 </Project>

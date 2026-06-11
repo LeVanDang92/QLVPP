@@ -12,3 +12,14 @@ export interface User {
   modifiedAt : Date | null;
   modifiedBy : string| null;
 }
+
+
+export interface UserRequest {
+  userName: string;
+  fullName:string;
+  password: string;
+  email: string;
+  isActive: boolean;
+  department: string;
+  role: string;
+}

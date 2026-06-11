@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, computed, effect } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { User } from '../../shared/models/User';
 import { SetupPageLayout } from '../../shared/layout/setup-page-layout/setup-page-layout';
@@ -37,6 +37,20 @@ export class Register implements OnInit {
   users = signal<User[]>([]);
   roles = signal<Role[]>([]);
   departments = signal<CodeDataDto[]>([]);
+
+
+  constructor() {
+       effect(() => {
+           const user = this.selectedUser();
+           const userIdControl = this.form.get('userId');
+
+           if (user) {
+             userIdControl?.disable();
+           } else {
+             userIdControl?.enable();
+           }
+       });
+  }
 
   ngOnInit() {
     this.loadUsers();
@@ -123,11 +137,7 @@ export class Register implements OnInit {
 
     if (userIndex > -1) {
       // Update existing user
-      existingUsers[userIndex] = userToSave;
-
-      this.users.set([...existingUsers]);
-      this.selectedUser.set(null);
-      this.form.reset({ isActive: true });
+      this.UpdateUser(userToSave);
     } else {
       // Add new user
       this.AddNewUser(userToSave);
@@ -151,11 +161,7 @@ export class Register implements OnInit {
       alert('Please select a user to delete.');
       return;
     }
-    const existingUsers = this.users();
-    const updatedUsers = existingUsers.filter((u) => u.userId !== this.selectedUser()?.userId);
-    this.users.set(updatedUsers);
-    this.selectedUser.set(null);
-    this.form.reset({ isActive: true });
+    this.DeleteUser(this.selectedUser()!.userId);
   }
 
   onReset(): void {
@@ -179,5 +185,42 @@ export class Register implements OnInit {
       }
     });
 
+  }
+
+  private UpdateUser(user: User): void {
+    this.userService.updateUser(user).subscribe({
+      next: (updatedUser) => {
+        const existingUsers = this.users();
+        const userIndex = existingUsers.findIndex((u) => u.userId === updatedUser.userId);
+        if (userIndex > -1) {
+          existingUsers[userIndex] = updatedUser;
+          this.users.set([...existingUsers]);
+          this.selectedUser.set(null);
+          this.form.reset({ isActive: true });
+          alert('User updated successfully!');
+        }
+      },
+      error: (error) => {
+        console.error('Failed to update user:', error);
+        alert('Failed to update user. Please try again later.');
+      }
+    });
+  }
+
+  private DeleteUser(userId: string): void {
+    this.userService.deleteUser(userId).subscribe({
+      next: () => {
+        const existingUsers = this.users();
+        const updatedUsers = existingUsers.filter((u) => u.userId !== userId);
+        this.users.set(updatedUsers);
+        this.selectedUser.set(null);
+        this.form.reset({ isActive: true });
+        alert('User deleted successfully!');
+      },
+      error: (error) => {
+        console.error('Failed to delete user:', error);
+        alert('Failed to delete user. Please try again later.');
+      }
+    });
   }
 }
