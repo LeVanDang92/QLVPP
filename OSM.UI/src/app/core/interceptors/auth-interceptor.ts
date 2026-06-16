@@ -5,7 +5,7 @@ import { catchError } from 'rxjs/internal/operators/catchError';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Router } from '@angular/router';
 import { TokenService } from '../services/token.service';
-import { inject } from '@angular/core/primitives/di';
+import { inject } from '@angular/core';
 import { finalize } from 'rxjs/internal/operators/finalize';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
 

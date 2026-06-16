@@ -32,6 +32,15 @@ namespace OSM.API.Controllers
 
         private IActionResult HandleFailure(Error error)
         {
+
+            if (error.Type == ErrorType.None)
+            {
+                error = Error.Unexpected(
+                    "Server.Unexpected",
+                    "An unexpected error occurred."
+                );
+            }
+
             var statusCode = GetStatusCode(error.Type);
 
             var problemDetails = new ProblemDetails
@@ -39,10 +48,10 @@ namespace OSM.API.Controllers
                 Status = statusCode,
                 Title = GetTitle(error.Type),
                 Detail = error.Description,
-                Type = GetProblemType(error.Type)
+                Type = GetProblemType(error.Type),
+                Instance = HttpContext.Request.Path
             };
 
-            problemDetails.Instance = HttpContext.Request.Path;
             problemDetails.Extensions["errorCode"] = error.Code;
             problemDetails.Extensions["traceId"] = HttpContext.TraceIdentifier;
 

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using OSM.Application.Abstractions.Services;
 using OSM.Application.Common;
+using OSM.Application.Common.Errors;
 
 namespace OSM.Application.Features.BaseSetup.UserSetup.DeleteUser
 {
@@ -9,7 +10,7 @@ namespace OSM.Application.Features.BaseSetup.UserSetup.DeleteUser
         public async Task<Result> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
             var result = await userService.DeleteUserAsync(request.UserName);
-            return result ? Result.Success(result) : Result.Failure(new Common.Errors.Error("","Delete user failed.",Common.Errors.ErrorType.None));
+            return result ? Result.Success(result) : Result.Failure(Error.Unexpected("User.DeleteFailed", "Failed to delete user."));
         }
     }
 }

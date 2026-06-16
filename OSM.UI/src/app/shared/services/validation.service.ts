@@ -7,7 +7,8 @@ export class FormValidationErrorService {
     email: () => 'Định dạng email không hợp lệ.',
     minlength: (args) => `Phải nhập tối thiểu ${args.requiredLength} ký tự.`,
     maxlength: (args) => `Chỉ được nhập tối đa ${args.requiredLength} ký tự.`,
-    pattern: () => 'Dữ liệu nhập vào không đúng định dạng.'
+    pattern: () => 'Dữ liệu nhập vào không đúng định dạng.',
+    serverError: (message) => message || 'Dữ liệu không hợp lệ.'
   };
 
   getErrorMessage(errorKey: string, errorValue: any): string {

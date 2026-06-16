@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using OSM.Application.Abstractions.Services;
 using OSM.Application.Common;
+using OSM.Application.Common.Errors;
 
 namespace OSM.Application.Features.BaseSetup.MenuSetup.DeleteMenu
 {
@@ -9,7 +10,7 @@ namespace OSM.Application.Features.BaseSetup.MenuSetup.DeleteMenu
         public async Task<Result> Handle(DeleteMenuCommand request, CancellationToken cancellationToken)
         {
            bool result = await menuService.DeleteMenu(request.MenuId, cancellationToken);
-            return result ? Result.Success() : Result.Failure(new Common.Errors.Error("DeleteMenuFailed","Failed to delete menu.",Common.Errors.ErrorType.None));
+            return result ? Result.Success() : Result.Failure(Error.Unexpected("Menu.DeleteFailed","Failed to delete menu."));
         }
     }
 }

@@ -14,8 +14,8 @@ namespace OSM.Application.Features.BaseSetup.UserSetup.UpdateUser
             var user = await userService.UpdateUserAsync(userRequest);
 
             return user != null
-                ? Result.Success<UserResponse>(user)
-                : Result.Failure<UserResponse>(new Error(string.Empty, "Update user failed.", ErrorType.None));     
+                ? Result.Success(user)
+                : Result.Failure<UserResponse>(Error.Unexpected("User.UpdateFailed", "Failed to update user."));     
         }
     }
 }

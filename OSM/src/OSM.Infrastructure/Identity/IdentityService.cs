@@ -329,7 +329,7 @@ namespace OSM.Infrastructure.Identity
         public static List<MenuPermissionResponse> BuildMenuTree(List<RoleMenuPermission> menus, string? parentMenuId = null)
         {
             return [.. menus
-                .Where(x => x.Menu.ParentMenuId == parentMenuId)
+                .Where(x => x.Menu.ParentMenuId == parentMenuId).OrderBy(x => x.Menu.DisplayOrder)
                 .GroupBy(x => new
                 {
                     x.MenuId,

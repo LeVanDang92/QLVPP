@@ -10,6 +10,7 @@ import { CodedataService } from '../../../../core/services/codedata.service';
 import { CodeDataDto } from '../../../../core/models/codeDataDto';
 import { FormErrorDirective } from '../../../../shared/Directive/form-error.directive';
 import { FormSignalService } from '../../../../shared/services/FormSignalService';
+import { ServerValidationErrorService } from '../../../../shared/services/server-validation-error.service';
 
 @Component({
   selector: 'app-register',
@@ -18,11 +19,11 @@ import { FormSignalService } from '../../../../shared/services/FormSignalService
   styleUrl: './register.scss',
 })
 export class RegisterComponent implements OnInit {
-
   private userService = inject(UserService);
   private roleService = inject(RoleService);
-  private codeDataService = inject(CodedataService)
+  private codeDataService = inject(CodedataService);
   private formSignalService = inject(FormSignalService);
+  private serverValidationErrorService = inject(ServerValidationErrorService);
 
   private route = inject(ActivatedRoute);
   private fb = inject(FormBuilder);
@@ -38,18 +39,17 @@ export class RegisterComponent implements OnInit {
   roles = signal<Role[]>([]);
   departments = signal<CodeDataDto[]>([]);
 
-
   constructor() {
-       effect(() => {
-           const user = this.selectedUser();
-           const userIdControl = this.form.get('userId');
+    effect(() => {
+      const user = this.selectedUser();
+      const userIdControl = this.form.get('userId');
 
-           if (user) {
-             userIdControl?.disable();
-           } else {
-             userIdControl?.enable();
-           }
-       });
+      if (user) {
+        userIdControl?.disable();
+      } else {
+        userIdControl?.enable();
+      }
+    });
   }
 
   ngOnInit() {
@@ -64,7 +64,7 @@ export class RegisterComponent implements OnInit {
       error: (error) => {
         console.error('Failed to load users:', error);
         alert('Failed to load users. Please try again later.');
-      }
+      },
     });
   }
 
@@ -74,20 +74,19 @@ export class RegisterComponent implements OnInit {
       error: (error) => {
         console.error('Failed to load roles:', error);
         alert('Failed to load roles. Please try again later.');
-      }
+      },
     });
   }
 
   private loadCodeData(): void {
     this.codeDataService.getCodeData('DEPT').subscribe({
       next: (codeDatas) => {
-
-         this.departments.set(codeDatas);;
+        this.departments.set(codeDatas);
       },
       error: (error) => {
         console.error('Failed to load code data:', error);
         alert('Failed to load code data. Please try again later.');
-      }
+      },
     });
   }
 
@@ -124,7 +123,7 @@ export class RegisterComponent implements OnInit {
       isActive: this.form.value.isActive ?? true,
       role: this.form.value.role || '',
       userId: this.selectedUser()?.userId || this.form.value.userId || '',
-      fullName:  '',
+      fullName: '',
       passwordShow: this.form.value.passwordShow || '',
       createdAt: this.selectedUser()?.createdAt || new Date(),
       createdBy: this.selectedUser()?.createdBy || 'Admin',
@@ -165,12 +164,12 @@ export class RegisterComponent implements OnInit {
   }
 
   onReset(): void {
-     this.form.reset({ isActive: true });
-     this.selectedUser.set(null);
+    this.form.reset({ isActive: true });
+    this.selectedUser.set(null);
+    this.serverValidationErrorService.clearServerErrors(this.form);
   }
 
   private AddNewUser(user: User): void {
-
     this.userService.registerUser(user).subscribe({
       next: (newUserId) => {
         const updatedUsers = [...this.users(), user];
@@ -180,11 +179,10 @@ export class RegisterComponent implements OnInit {
         alert('User registered successfully!');
       },
       error: (error) => {
-        console.error('Failed to register user:', error);
+        this.serverValidationErrorService.applyErrors(this.form, error);
         alert('Failed to register user. Please try again later.');
-      }
+      },
     });
-
   }
 
   private UpdateUser(user: User): void {
@@ -201,25 +199,24 @@ export class RegisterComponent implements OnInit {
         }
       },
       error: (error) => {
-        console.error('Failed to update user:', error);
+        this.serverValidationErrorService.applyErrors(this.form, error);
         alert('Failed to update user. Please try again later.');
-      }
+      },
     });
   }
 
   private DeleteUser(userId: string): void {
     this.userService.deleteUser(userId).subscribe({
       next: () => {
-
-        this.users.update(users => users.filter(u => u.userId !== userId));
+        this.users.update((users) => users.filter((u) => u.userId !== userId));
         this.selectedUser.set(null);
         this.form.reset({ isActive: true });
         alert('User deleted successfully!');
       },
       error: (error) => {
-        console.error('Failed to delete user:', error);
+        this.serverValidationErrorService.applyErrors(this.form, error);
         alert('Failed to delete user. Please try again later.');
-      }
+      },
     });
   }
 }

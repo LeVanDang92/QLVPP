@@ -22,7 +22,8 @@ namespace OSM.Application.Features.BaseSetup.MenuSetup.GetMenu
                                  ,[ParentMenuId]
                                  ,[Closable]
                                  ,[IsActive]
-                             FROM [OSM_DB].[dbo].[Menus]";
+                             FROM [dbo].[Menus]
+                             ORDER BY DisplayOrder";
 
             var menuList = await dapperHelper.QueryAsync<MenuResponse>(sql);
 
