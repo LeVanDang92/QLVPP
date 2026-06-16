@@ -54,9 +54,17 @@ namespace OSM.Infrastructure.Persistence.Configurations
         {
             builder.ToTable("RoleMenuPermission");
             builder.HasKey(x => new { x.RoleId, x.MenuId, x.PermissionId });
-            builder.HasOne(x => x.Role).WithMany(x => x.RoleMenuPermissions).HasForeignKey(x => x.RoleId);
-            builder.HasOne(x => x.Permission).WithMany(x => x.RoleMenuPermissions).HasForeignKey(x => x.PermissionId);
-            builder.HasOne(x => x.Menu).WithMany(x => x.RoleMenuPermissions).HasForeignKey(x => x.MenuId);
+            builder.HasOne(x => x.Role).WithMany(x => x.RoleMenuPermissions).HasForeignKey(x => x.RoleId).OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(x => x.Permission).WithMany(x => x.RoleMenuPermissions).HasForeignKey(x => x.PermissionId).OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(x => x.Menu).WithMany(x => x.RoleMenuPermissions).HasForeignKey(x => x.MenuId).OnDelete(DeleteBehavior.Restrict);
+        }
+    }
+
+    public sealed class RoleConfiguration : IEntityTypeConfiguration<ApplicationRole>
+    {
+        public void Configure(EntityTypeBuilder<ApplicationRole> builder)
+        {
+            builder.Property(x => x.Description).HasMaxLength(150);
         }
     }
 

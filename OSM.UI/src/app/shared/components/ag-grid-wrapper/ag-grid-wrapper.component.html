@@ -1,0 +1,28 @@
+<div class="grid-card">
+  <div class="grid-header" *ngIf="title || showSearch">
+    <h3 *ngIf="title">{{ title }}</h3>
+
+    <div class="search-box" *ngIf="showSearch">
+      <input
+        class="search-input"
+        type="text"
+        placeholder="Search..."
+        (input)="onSearch($event)"
+      />
+    </div>
+  </div>
+
+  <ag-grid-angular
+    class="ag-theme-alpine menu-grid"
+    [rowData]="rowData"
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [gridOptions]="gridOptions"
+    [quickFilterText]="search"
+    [rowSelection]="rowSelection"
+    (rowClicked)="onRowClicked($event)"
+    (selectionChanged)="onSelectionChanged($event)"
+    [animateRows]="true"
+  >
+  </ag-grid-angular>
+</div>

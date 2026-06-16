@@ -64,7 +64,8 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("http://localhost:4200") // Thay đổi thành URL của frontend Angular
+        var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
+        policy.WithOrigins(allowedOrigins) // Thay đổi thành URL của frontend Angular
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();

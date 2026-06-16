@@ -1,1 +1,54 @@
-<p>role works!</p>
+<app-setup-page-layout
+  breadcrumb="{{ breadcrumb() }}"
+  title="{{ title() }}"
+  sectionTitle="{{ sectionTitle() }}"
+
+  [createDisabled]="!!selectedRole()"
+  [updateDisabled]="!selectedRole()"
+  [deleteDisabled]="!selectedRole()"
+  [resetDisabled]="false"
+
+  (create)="onCreate()"
+  (update)="onUpdate()"
+  (delete)="onDelete()"
+  (reset)="onReset()">
+
+   <div class="grid-card">
+      <h3>Role List</h3>
+
+      <table class="role-table">
+        <thead>
+          <tr>
+            <th>Role Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (role of roles(); track role.id) {
+            <tr
+              [class.selected]="selectedRole()?.id === role.id"
+              (click)="selectRole(role)">
+              <td>{{ role.name }}</td>
+              <td>{{ role.description }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <hr>
+    <div class="detail-card">
+      <h3>Role Detail</h3>
+
+      <form [formGroup]="form" class="role-form">
+        <div class="form-row">
+          <label>Role Name: <span>*</span></label>
+          <input type="text" formControlName="name" />
+        </div>
+        <div class="form-row">
+          <label>Description:</label>
+          <textarea formControlName="description"></textarea>
+        </div>
+      </form>
+    </div>
+</app-setup-page-layout>

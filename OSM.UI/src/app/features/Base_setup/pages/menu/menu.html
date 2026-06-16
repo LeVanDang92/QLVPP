@@ -1,1 +1,114 @@
-<p>menu works!</p>
+<app-setup-page-layout
+breadcrumb="{{ breadcrumb() }}"
+title="{{ title() }}"
+sectionTitle="{{ sectionTitle() }}"
+[createDisabled]="!!selectedMenu()"
+[updateDisabled]="!selectedMenu()"
+[deleteDisabled]="!selectedMenu()"
+[resetDisabled]="false"
+(create)="onCreate()"
+(update)="onUpdate()"
+(delete)="onDelete()"
+(reset)="onReset()">
+
+  <app-ag-grid
+    title="Menu List"
+    [showSearch]="true"
+    [rowData]="rowData()"
+    [columnDefs]="colDefs"
+    [defaultColDef]="defaultColDef"
+    [gridOptions]="gridOptions"
+    rowSelection="single"
+    (rowClicked)="onRowClicked($event)">
+  </app-ag-grid>
+  <hr>
+
+  <div class="menu-setup-container">
+    <div class="detail-card">
+       <h3>Menu Detail</h3>
+      <form [formGroup]="form" class="menu-form">
+        <div class="form-row">
+          <label>Menu ID: <span>*</span></label>
+          <input type="text" formControlName="menuId" />
+        </div>
+
+        <div class="form-row">
+          <label>Menu Name: <span>*</span></label>
+          <input type="text" formControlName="menuName" />
+        </div>
+
+        <div class="form-row">
+          <label>Menu Short Name: <span>*</span></label>
+          <input type="text" formControlName="menuShortName" />
+        </div>
+
+        <div class="form-row">
+          <label>Menu Type: <span>*</span></label>
+          <select formControlName="menuType">
+            <option value="">Select...</option>
+            @for (type of menuTypes(); track type.data_Code) {
+              <option [value]="type.data_Code">{{ type.data_Code }} :: {{ type.data_Value }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label>Menu Group: <span>*</span></label>
+          <select formControlName="menuGroup">
+            <option value="">Select...</option>
+            @for (group of menuGroups(); track group.data_Code) {
+              <option [value]="group.data_Code">{{ group.data_Code }} :: {{ group.data_Value }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label>Menu URL:</label>
+          <input type="text" formControlName="menuUrl" />
+        </div>
+
+        <div class="form-row">
+          <label>External URL:</label>
+          <input type="text" formControlName="externalUrl" />
+        </div>
+
+        <div class="form-row">
+          <label>Parent Menu ID:</label>
+          <input type="text" formControlName="parentMenuId" />
+        </div>
+
+        <div class="form-row">
+          <label>Icon Class:</label>
+          <input type="text" formControlName="iconClass" />
+        </div>
+
+        <!-- Additional fields for badgeText and badgeClass -->
+        <div class="form-row">
+          <label>Badge Text:</label>
+          <input type="text" formControlName="badgeText" />
+        </div>
+
+        <div class="form-row">
+          <label>Badge Class:</label>
+          <input type="text" formControlName="badgeClass" />
+         </div>
+
+         <div class="form-row">
+          <label>Display Order</label>
+          <input type="number" formControlName="displayOrder" min="0">
+         </div>
+
+         <div class="form-row checkbox-row">
+          <label>Is Active</label>
+          <input type="checkbox" formControlName="isActive">
+         </div>
+
+         <div class="form-row checkbox-row">
+          <label>Closeable</label>
+          <input type="checkbox" formControlName="closable">
+         </div>
+      </form>
+    </div>
+  </div>
+
+</app-setup-page-layout>

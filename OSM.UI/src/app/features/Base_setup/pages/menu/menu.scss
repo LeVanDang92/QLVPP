@@ -1,0 +1,153 @@
+.menu-page {
+  padding: 8px 0;
+}
+
+.menu-setup-container {
+  display: flex;
+  justify-content: center;
+  background: #f5f7fa;
+}
+
+.detail-card {
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.card-title {
+  margin-bottom: 24px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1f2937;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 12px;
+}
+
+.menu-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 24px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+
+.form-row label {
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.form-row label span {
+  color: #ef4444;
+}
+
+.form-row input,
+.form-row select {
+  width: 100%;
+  box-sizing: border-box;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: #fff;
+  color: #111827;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-row input:hover,
+.form-row select:hover {
+  border-color: #9ca3af;
+}
+
+.form-row input:focus,
+.form-row select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.form-row select {
+  cursor: pointer;
+  padding-right: 42px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, #6b7280 50%),
+    linear-gradient(135deg, #6b7280 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) 17px,
+    calc(100% - 13px) 17px;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+}
+
+.form-row select option {
+  background: #fff;
+  color: #111827;
+}
+
+/* field dài chiếm cả 2 cột */
+.form-row.full-width {
+  grid-column: span 2;
+}
+
+@media (max-width: 768px) {
+  .detail-card {
+    padding: 20px;
+  }
+
+  .menu-form {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row,
+  .form-row.full-width {
+    grid-column: span 1;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .checkbox-row {
+  display: grid;
+  grid-template-columns: 160px auto;
+  align-items: center;
+}
+
+.checkbox-row input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #2563eb;
+  margin: 0;
+}
+
+.form-row input[type='number'] {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+}
+
+/* Ẩn spinner nếu muốn */
+.form-row input[type='number']::-webkit-outer-spin-button,
+.form-row input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.form-row input[type='number'] {
+  -moz-appearance: textfield;
+}
+}

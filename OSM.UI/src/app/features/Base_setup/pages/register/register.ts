@@ -17,7 +17,7 @@ import { FormSignalService } from '../../../../shared/services/FormSignalService
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })
-export class Register implements OnInit {
+export class RegisterComponent implements OnInit {
 
   private userService = inject(UserService);
   private roleService = inject(RoleService);
@@ -109,8 +109,8 @@ export class Register implements OnInit {
 
   save(): void {
     if (this.form.invalid) {
-     // alert('Please fill in all required fields correctly.');
       this.form.markAllAsTouched();
+      this.form.updateValueAndValidity({ onlySelf: false, emitEvent: true });
       this.formSignalService.triggerSave();
       return;
     }
@@ -210,9 +210,8 @@ export class Register implements OnInit {
   private DeleteUser(userId: string): void {
     this.userService.deleteUser(userId).subscribe({
       next: () => {
-        const existingUsers = this.users();
-        const updatedUsers = existingUsers.filter((u) => u.userId !== userId);
-        this.users.set(updatedUsers);
+
+        this.users.update(users => users.filter(u => u.userId !== userId));
         this.selectedUser.set(null);
         this.form.reset({ isActive: true });
         alert('User deleted successfully!');

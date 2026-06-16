@@ -1,0 +1,170 @@
+.grid-card {
+  background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+  border: 1px solid rgba(34, 60, 80, 0.06);
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 6px 18px rgba(16, 40, 80, 0.06);
+}
+
+.grid-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.search-box {
+  flex: 1;
+  max-width: 320px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 13px;
+  border: 1px solid rgba(34, 60, 80, 0.12);
+  border-radius: 6px;
+  background: #ffffff;
+  color: #263646;
+  transition: all 0.2s ease;
+}
+
+.menu-grid {
+  width: 100%;
+  height: 360px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* keep other ag-theme overrides minimal here; page-specific overrides can still apply */
+// .ag-theme-alpine .ag-header-cell {
+//   background: linear-gradient(180deg, #f7f9fc, #eef4ff);
+//   color: #0f254d;
+//   font-weight: 600;
+//   border-bottom: 1px solid rgba(34, 60, 80, 0.08);
+// }
+
+/* Row striping and separators */
+.ag-theme-alpine .ag-row {
+  background: #ffffff;
+  border-top: 1px solid rgba(34, 60, 80, 0.08);
+  border-bottom: 1px solid rgba(34, 60, 80, 0.08);
+}
+
+.ag-theme-alpine .ag-row:nth-child(odd) {
+  background: #fbfdff;
+}
+
+.ag-theme-alpine .ag-row:hover {
+  background: #e8f0ff !important;
+  box-shadow: inset 0 0 0 1px rgba(31, 85, 144, 0.1);
+}
+
+.ag-theme-alpine .ag-row.ag-row-selected {
+  background: #d4e3f7 !important;
+  border-color: #1f5590;
+}
+
+/* Cell styling and column separators */
+// .ag-theme-alpine .ag-cell {
+//   padding: 10px 12px;
+//   font-size: 13px;
+//   color: #263646;
+//   border-right: 1px solid rgba(34, 60, 80, 0.20) !important;;
+//   border-left: none;
+//   // display: flex;
+//   // align-items: center;
+// }
+
+// .ag-theme-alpine .ag-cell:last-child {
+//   border-right: 1px solid rgba(34, 60, 80, 0.20);
+// }
+
+/* Ensure a visible vertical separator using a pseudo element (works even when cell backgrounds overlap) */
+.ag-theme-alpine .ag-center-cols-container .ag-cell {
+  position: relative;
+}
+.ag-theme-alpine .ag-center-cols-container .ag-cell::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: rgba(34,60,80,0.18);
+  pointer-events: none;
+}
+
+/* Slightly darker header column separators */
+// .ag-theme-alpine .ag-header-cell {
+//   border-right: 1px solid rgba(34,60,80,0.22);
+// }
+
+.ag-theme-alpine .ag-cell:focus-within {
+  background: #eef6ff;
+  outline: 1px solid #1f5590;
+  outline-offset: -1px;
+}
+
+.ag-theme-alpine .ag-checkbox-input-wrapper {
+  margin: 0;
+}
+
+.ag-theme-alpine .ag-header-cell-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ag-theme-alpine .ag-root-wrapper {
+  border-radius: 6px;
+}
+
+
+:host ::ng-deep .ag-theme-alpine .ag-cell {
+  border-right: 1px solid #babfc7 !important;
+}
+
+:host ::ng-deep .ag-theme-alpine .ag-header-cell {
+  border-right: 1px solid #babfc7 !important;
+  background: #1f5590 !important;
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+:host ::ng-deep .ag-header-icon .ag-icon{
+  color: #ffffff !important;
+}
+
+:host ::ng-deep .ag-header-cell-label .ag-icon-asc{
+  color: #ffffff !important;
+}
+
+:host ::ng-deep  .ag-header-cell-label .ag-icon-desc{
+  color: #ffffff !important;
+}
+
+:host ::ng-deep .ag-header-cell {
+  border-right: 1px solid rgba(255,255,255,0.2);
+}
+
+:host ::ng-deep .ag-header-cell-resize {
+  width: 6px;
+}
+
+:host ::ng-deep .ag-header-cell-resize::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 50%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0);
+  transform: translateX(-50%);
+}
+/* Small responsive tweak */
+@media (max-width: 680px) {
+  .menu-grid { height: 260px; }
+  .grid-card h3 { font-size: 16px; }
+}

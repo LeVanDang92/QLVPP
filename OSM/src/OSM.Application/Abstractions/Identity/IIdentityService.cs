@@ -1,5 +1,8 @@
 ﻿using OSM.Application.Common;
 using OSM.Application.Features.Auth;
+using OSM.Application.Features.BaseSetup.RoleSetup;
+using OSM.Application.Features.BaseSetup.RoleSetup.CreateRole;
+using OSM.Application.Features.BaseSetup.RoleSetup.UpdateRole;
 
 namespace OSM.Application.Abstractions.Identity
 {
@@ -10,5 +13,9 @@ namespace OSM.Application.Abstractions.Identity
         Task<Result<TokenResponse>> RefreshTokenAsync(string refreshToken, CancellationToken cancellationToken);
         Task<bool> RevokeRefreshTokenAsync(string refreshToken, CancellationToken cancellationToken = default);
         Task<CurrentUserResponse?> GetCurrentUserAsync(string userId, CancellationToken cancellationToken);
+
+        Task<RoleResponse> CreateRoleAsync(CreateRoleCommand command, CancellationToken cancellationToken);
+        Task<RoleResponse> UpdateRoleAsync(UpdateRoleCommand command, CancellationToken cancellationToken);
+        Task<bool> DeleteRoleAsync(Guid Id, CancellationToken cancellationToken);
     }
 }

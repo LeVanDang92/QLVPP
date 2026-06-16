@@ -6,4 +6,4 @@ import { Component } from '@angular/core';
   templateUrl: './menurole.html',
   styleUrl: './menurole.scss',
 })
-export class Menurole {}
+export class MenuroleComponent {}

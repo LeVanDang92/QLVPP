@@ -8,7 +8,7 @@ namespace OSM.Application.Features.BaseSetup.RoleSetup.GetRoles
     {
         public async Task<Result<List<RoleResponse>>> Handle(GetRoleQuery request, CancellationToken cancellationToken)
         {
-            string sql = "SELECT Id, Name FROM AspNetRoles";
+            string sql = "SELECT Id, Name , Description FROM AspNetRoles";
 
             var roles = await dapperHelper.QueryAsync<RoleResponse>(sql);
 

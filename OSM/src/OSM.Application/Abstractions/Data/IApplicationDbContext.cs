@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using OSM.Domain.Common;
 using OSM.Domain.Entities;
 using OSM.Domain.Entities.Products;
+using System;
 
 namespace OSM.Application.Abstractions.Data;
 

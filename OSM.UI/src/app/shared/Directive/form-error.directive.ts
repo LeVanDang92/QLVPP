@@ -43,20 +43,20 @@ export class FormErrorDirective implements OnInit {
           startWith(null),
           takeUntilDestroyed(this.destroyRef)
         )
-        .subscribe(() => {
-          this.updateErrorMessage();
+        .subscribe((trigger) => {
+          this.updateErrorMessage(trigger);
         });
     }
   }
 
-  private updateErrorMessage() {
+  private updateErrorMessage(trigger: 'status' | 'value' | 'save' | 'submit' | null) {
     const control = this.ngControl.control;
 
     // Kiểm tra xem form HTML đã được submit chưa (dành cho kịch bản nút submit)
     const isFormSubmitted = this.formGroupDirective?.submitted;
 
-    // Điều kiện hiện lỗi: Dữ liệu sai VÀ (Đã bị chạm HOẶC Form đã submit)
-    const shouldShowError = control && control.invalid && (control.touched || isFormSubmitted);
+    // Điều kiện hiện lỗi: Dữ liệu sai VÀ (Đã bị chạm HOẶC Form đã submit HOẶC khi nhấn Save trực tiếp)
+    const shouldShowError = control && control.invalid && (control.touched || isFormSubmitted || trigger === 'save');
 
     if (shouldShowError) {
       const firstErrorKey = Object.keys(control.errors || {})[0];

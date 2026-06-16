@@ -1,9 +1,227 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Menu } from '../../shared/models/Menu';
+import { SetupPageLayout } from '../../shared/layout/setup-page-layout/setup-page-layout';
+import { ModuleRegistry, AllCommunityModule, ColDef, GridOptions } from 'ag-grid-community';
+import { AgGridWrapperComponent } from '../../../../shared/components/ag-grid-wrapper/ag-grid-wrapper.component';
+import { MenuService } from '../../services/menu.service';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormErrorDirective } from '../../../../shared/Directive/form-error.directive';
+import { CodedataService } from '../../../../core/services/codedata.service';
+import { FormSignalService } from '../../../../shared/services/FormSignalService';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-menu',
-  imports: [],
+  imports: [SetupPageLayout, AgGridWrapperComponent, ReactiveFormsModule, FormErrorDirective],
   templateUrl: './menu.html',
-  styleUrl: './menu.scss',
+  styleUrls: ['./menu.scss'],
 })
-export class Menu {}
+export class MenuComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private menuService = inject(MenuService);
+  private codeDataService = inject(CodedataService);
+  private formSignalService = inject(FormSignalService);
+
+  breadcrumb = signal(this.route.snapshot.data['breadcrumb'] ?? '');
+  title = signal(this.route.snapshot.data['title'] ?? '');
+  sectionTitle = signal(this.route.snapshot.data['sectionTitle'] ?? '');
+
+  selectedMenu = signal<Menu | null>(null);
+  searchTerm = signal<string>('');
+
+  defaultColDef: ColDef = { sortable: true, filter: true, resizable: true, minWidth: 100 };
+  rowSelection: 'single' | 'multiple' = 'multiple';
+  rowMultiSelectWithClick = true;
+  suppressRowClickSelection = false;
+
+  gridOptions: GridOptions = { theme: 'legacy' };
+
+  rowData = signal<Menu[]>([]);
+
+  colDefs: ColDef[] = [
+    {
+      headerName: '',
+      checkboxSelection: true,
+      headerCheckboxSelection: true,
+      width: 20,
+      pinned: 'left',
+    },
+    { field: 'menuId', headerName: 'Menu ID' },
+    { field: 'menuName', headerName: 'Menu Name' },
+    { field: 'menuShortName', headerName: 'Menu Short Name' },
+    { field: 'menuType', headerName: 'Menu Type' },
+    { field: 'menuGroup', headerName: 'Menu Group' },
+    { field: 'menuUrl', headerName: 'Menu URL' },
+    { field: 'externalUrl', headerName: 'External URL' },
+    { field: 'parentMenuId', headerName: 'Parent Menu ID' },
+    { field: 'iconClass', headerName: 'Icon Class' },
+    { field: 'displayOrder', headerName: 'Display Order' },
+    { field: 'isActive', headerName: 'Is Active' },
+    { field: 'closable', headerName: 'Closable' },
+    { field: 'badgeText', headerName: 'Badge Text' },
+    { field: 'badgeClass', headerName: 'Badge Class' },
+  ];
+
+  private fb = inject(FormBuilder);
+
+  form = this.fb.group({
+    menuId: ['', [Validators.required, Validators.maxLength(50)]],
+    menuName: ['', [Validators.required, Validators.maxLength(200)]],
+    menuShortName: ['', [Validators.required, Validators.maxLength(100)]],
+    menuType: ['', [Validators.required, Validators.maxLength(50)]],
+    menuGroup: ['', [Validators.required, Validators.maxLength(100)]],
+    menuUrl: ['', [Validators.maxLength(500)]],
+    externalUrl: ['', [Validators.maxLength(1000)]],
+    parentMenuId: ['', [Validators.maxLength(50)]],
+    iconClass: ['', [Validators.maxLength(100)]],
+    displayOrder: [0],
+    isActive: [true],
+    closable: [true],
+    badgeText: ['', Validators.maxLength(50)],
+    badgeClass: ['', Validators.maxLength(200)],
+  });
+
+  menuTypes = signal<{ data_Code: string; data_Value: string }[]>([]);
+  menuGroups = signal<{ data_Code: string; data_Value: string }[]>([]);
+
+  ngOnInit() {
+    this.loadMenus();
+    this.loadMenuTypes();
+    this.loadMenuGroups();
+  }
+
+  loadMenus() {
+    this.menuService.getMenus().subscribe((menus: Menu[]) => {
+      this.rowData.set(menus);
+    });
+  }
+
+  loadMenuTypes() {
+    this.codeDataService
+      .getCodeData('MENU_TYPE')
+      .subscribe((types: { data_Code: string; data_Value: string }[]) => {
+        this.menuTypes.set(types);
+      });
+  }
+
+  loadMenuGroups() {
+    this.codeDataService
+      .getCodeData('MENU_GROUP')
+      .subscribe((groups: { data_Code: string; data_Value: string }[]) => {
+        this.menuGroups.set(groups);
+      });
+  }
+
+  onRowClicked(event: any) {
+    this.selectedMenu.set(event.data ?? null);
+    this.form.patchValue(event.data ?? {});
+  }
+
+  onCreate() {
+    this.onSave();
+  }
+
+  onUpdate() {
+    this.onSave();
+  }
+
+  onDelete() {
+    const menuId = this.selectedMenu()?.menuId;
+
+    if(!menuId)
+    {
+       alert('Please select menu to delete.');
+       return;
+    }
+
+    this.menuService.deleteMenu(menuId).subscribe({
+      next:()=>{
+        alert('Delete menu success!');
+        this.clearSelectionAndForm();
+      },
+      error:()=>{
+        alert('Delete menu error!');
+      }
+    })
+  }
+
+  onReset() {
+   this.clearSelectionAndForm();
+  }
+
+  onSave(): void {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      this.formSignalService.triggerSave();
+      return;
+    }
+
+  const formValue = this.form.getRawValue();
+
+  const menuToSave: Menu = {
+    ...this.selectedMenu(),
+    ...formValue,
+    menuId: formValue.menuId ?? '',
+    menuName: formValue.menuName ?? '',
+    menuShortName: formValue.menuShortName ?? '',
+    menuType: formValue.menuType ?? '',
+    menuGroup: formValue.menuGroup ?? '',
+    menuUrl: formValue.menuUrl ?? '',
+    externalUrl: formValue.externalUrl ?? '',
+    parentMenuId: formValue.parentMenuId ?? '',
+    iconClass: formValue.iconClass ?? '',
+    badgeClass: formValue.badgeClass ?? '',
+    badgeText: formValue.badgeText ?? '',
+    displayOrder: Number(formValue.displayOrder),
+    isActive : Boolean(formValue.isActive),
+    closable: Boolean(formValue.closable)
+  };
+
+    const selectedId = this.selectedMenu()?.menuId;
+
+    if (!selectedId) {
+      this.createMenu(menuToSave);
+    } else {
+      this.updateMenu(menuToSave);
+    }
+  }
+
+  private updateMenu(menu: Menu): void {
+    this.menuService.updateMenu(menu.menuId, menu).subscribe({
+      next: (updatedMenu) => {
+         this.rowData.update((menus) =>
+          menus.map((item) =>
+          item.menuId === updatedMenu.menuId ? updatedMenu : item
+        )
+      );
+
+      this.clearSelectionAndForm();
+      alert('Update menu success!');
+      },
+      error: (error) => {
+        alert('Update menu error.Please try again later.');
+      },
+    });
+  }
+
+  private createMenu(menu : Menu):void{
+    this.menuService.createMenu(menu).subscribe({
+      next : (createdMenu) =>{
+        this.rowData.update((menus) => [...menus,createdMenu]);
+
+        this.clearSelectionAndForm();
+        alert('Create menu sucess!');
+      },
+      error:() =>{
+        alert('create menu error. Please try again.')
+      }
+    })
+  }
+
+  private clearSelectionAndForm(): void {
+  this.selectedMenu.set(null);
+  this.form.reset({isActive:true,closable:true});
+}
+}

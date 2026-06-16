@@ -16,7 +16,6 @@ namespace OSM.Infrastructure.Identity
         /// </summary>
         public string? ExternalUrl { get; set; } 
         public string IconClass { get; set; }
-
         public int DisplayOrder { get; set; }
         public bool IsActive { get; set; } = true;
 
@@ -35,16 +34,12 @@ namespace OSM.Infrastructure.Identity
         /// Menu cha
         /// </summary>
         public string? ParentMenuId { get; set; }
-
         public Menus? ParentMenu { get; set; }
-
         public DateTimeOffset CreatedAt { get; set; }
         public string? CreatedBy { get; set; }
         public DateTimeOffset? ModifiedAt { get; set; }
         public string? ModifiedBy { get; set; }
-
         public ICollection<RoleMenuPermission> RoleMenuPermissions { get; set; } = [];
-        
         public ICollection<Menus> ChildMenus { get; set; } = [];
     }
 }

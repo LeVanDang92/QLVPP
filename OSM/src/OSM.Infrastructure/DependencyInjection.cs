@@ -180,6 +180,7 @@ namespace OSM.Infrastructure
             services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IMenuService, MenuService>();
 
             return services;
         }

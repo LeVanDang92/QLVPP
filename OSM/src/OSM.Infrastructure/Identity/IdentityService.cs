@@ -7,6 +7,9 @@ using OSM.Application.Abstractions.Identity;
 using OSM.Application.Common;
 using OSM.Application.Common.Errors;
 using OSM.Application.Features.Auth;
+using OSM.Application.Features.BaseSetup.RoleSetup;
+using OSM.Application.Features.BaseSetup.RoleSetup.CreateRole;
+using OSM.Application.Features.BaseSetup.RoleSetup.UpdateRole;
 using OSM.Infrastructure.Authentication;
 using OSM.Infrastructure.Common;
 using OSM.Infrastructure.Persistence;
@@ -423,5 +426,86 @@ namespace OSM.Infrastructure.Identity
             }
             return false;
         }
+
+
+        #region Role management : create, update, delete role
+        /// <summary>
+        /// Tạo role mới
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<RoleResponse> CreateRoleAsync(CreateRoleCommand command, CancellationToken cancellationToken)
+        {
+            var existRole = await roleManager.RoleExistsAsync(command.Name);
+
+            if (existRole)
+            {
+                throw new Exception($"Role with name '{command.Name}' already exists.");
+            }
+            var role = new ApplicationRole
+            {
+                Name = command.Name,
+                Description = command.Description
+            };
+            var result = await roleManager.CreateAsync(role);
+            if (!result.Succeeded)
+            {
+                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                throw new Exception($"Failed to create role: {errors}");
+            }
+
+            role = await roleManager.FindByNameAsync(command.Name);
+
+            return new RoleResponse
+            (
+                role.Id,
+                role.Name,
+                role.Description
+            );
+        }
+
+        public async Task<RoleResponse> UpdateRoleAsync(UpdateRoleCommand command, CancellationToken cancellationToken)
+        {
+            var role = await roleManager.FindByIdAsync(command.Id.ToString());
+            if (role is null)
+            {
+                throw new Exception($"Role with ID '{command.Id}' not found.");
+            }
+
+            role.Name = command.Name;
+            role.Description = command.Description;
+            var result = await roleManager.UpdateAsync(role);
+            if (!result.Succeeded)
+            {
+                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                throw new Exception($"Failed to update role: {errors}");
+            }
+
+            return new RoleResponse
+            (
+                role.Id,
+                role.Name,
+                role.Description
+            );
+        }
+
+        public async Task<bool> DeleteRoleAsync(Guid Id, CancellationToken cancellationToken)
+        {
+            var role = await roleManager.FindByIdAsync(Id.ToString());
+            if (role is null)
+            {
+                throw new Exception($"Role with ID '{Id}' not found.");
+            }
+            var result = await roleManager.DeleteAsync(role);
+            if (!result.Succeeded)
+            {
+                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                throw new Exception($"Failed to delete role: {errors}");
+            }
+            return true;
+        }
+        #endregion
     }
 }
