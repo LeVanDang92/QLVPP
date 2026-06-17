@@ -72,10 +72,3 @@ app-page-tabs {
   padding-top: calc(var(--app-header-height) + 12px) !important;
 }
 
-:host ::ng-deep .ag-theme-alpine .ag-cell {
-  border-right: 1px solid rgba(34, 60, 80, 0.20) !important;
-}
-
-:host ::ng-deep .ag-theme-alpine .ag-header-cell {
-  border-right: 1px solid rgba(34, 60, 80, 0.20) !important;
-}

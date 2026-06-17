@@ -6,5 +6,6 @@ namespace OSM.Infrastructure.Identity
     {
         public string Description { get; set; }
         public ICollection<RoleMenuPermission> RoleMenuPermissions { get; set; } = [];
+        public ICollection<RoleMenu> RoleMenus { get; set; } = [];
     }
 }

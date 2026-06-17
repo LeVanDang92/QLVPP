@@ -13,11 +13,13 @@ sectionTitle="{{ sectionTitle() }}"
 
   <app-ag-grid
     title="Menu List"
+    rowIdField="menuId"
     [showSearch]="true"
     [rowData]="rowData()"
     [columnDefs]="colDefs"
     [defaultColDef]="defaultColDef"
     [gridOptions]="gridOptions"
+    [enableBatchEdit]="false"
     rowSelection="single"
     (rowClicked)="onRowClicked($event)">
   </app-ag-grid>

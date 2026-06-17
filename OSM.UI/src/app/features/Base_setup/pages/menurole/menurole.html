@@ -1,1 +1,56 @@
-<p>menurole works!</p>
+<app-setup-page-layout
+  breadcrumb="{{ breadcrumb() }}"
+  title="{{ title() }}"
+  sectionTitle="{{ sectionTitle() }}"
+  [createDisabled]="true"
+  [updateDisabled]="!selectedRoleId() || !hasChanged() || loading()"
+  [deleteDisabled]="true"
+  [resetDisabled]="!selectedRoleId() || !hasChanged() || loading()"
+  (update)="onUpdate()"
+  (reset)="onReset()">
+
+  <div class="role-menu-permission-page">
+    <div class="selector-card">
+      <label for="roleSelect">Role</label>
+      <select id="roleSelect" [value]="selectedRoleId()" (change)="onRoleChange($event)">
+        <option value="">Select role...</option>
+        @for (role of roles(); track role.id) {
+          <option [value]="role.id">
+            {{ role.name }}{{ role.description ? ' - ' + role.description : '' }}
+          </option>
+        }
+      </select>
+
+      @if (hasChanged()) {
+        <span class="dirty-badge">Unsaved changes</span>
+      }
+    </div>
+
+    @if (!selectedRoleId()) {
+      <div class="empty-state">Please select a role to setup menu permissions.</div>
+    } @else if (loading()) {
+      <div class="empty-state">Loading permissions...</div>
+    } @else {
+      <app-ag-grid
+        title="Role Menu Permission"
+        [showSearch]="true"
+        [rowData]="rowData()"
+        [columnDefs]="colDefs"
+        [defaultColDef]="defaultColDef"
+        [gridOptions]="gridOptions"
+        rowSelection="single"
+        rowIdField="menuId"
+        [enableBatchEdit]="true"
+        (cellValueChanged)="onCellValueChanged($event)">
+      </app-ag-grid>
+    }
+
+    <div class="rule-note">
+      <strong>Rules:</strong>
+      Write/Delete automatically enable Read. If Read is unchecked, the menu is not saved.
+      When a child menu is selected, all parent menus are automatically granted Read.
+      Write = create/update.
+    </div>
+  </div>
+</app-setup-page-layout>
+

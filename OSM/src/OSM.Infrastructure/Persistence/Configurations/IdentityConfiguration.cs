@@ -48,7 +48,7 @@ namespace OSM.Infrastructure.Persistence.Configurations
         }
     }
 
-    public sealed class RolePermissionConfiguration : IEntityTypeConfiguration<RoleMenuPermission>
+    public sealed class RoleMenuPermissionConfiguration : IEntityTypeConfiguration<RoleMenuPermission>
     {
         public void Configure(EntityTypeBuilder<RoleMenuPermission> builder)
         {
@@ -57,6 +57,18 @@ namespace OSM.Infrastructure.Persistence.Configurations
             builder.HasOne(x => x.Role).WithMany(x => x.RoleMenuPermissions).HasForeignKey(x => x.RoleId).OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(x => x.Permission).WithMany(x => x.RoleMenuPermissions).HasForeignKey(x => x.PermissionId).OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(x => x.Menu).WithMany(x => x.RoleMenuPermissions).HasForeignKey(x => x.MenuId).OnDelete(DeleteBehavior.Restrict);
+        }
+    }
+
+    public sealed class  RoleMenuConfiguration :IEntityTypeConfiguration<RoleMenu>
+    {
+        public void Configure(EntityTypeBuilder<RoleMenu> builder)
+        {
+            builder.ToTable("RoleMenu");
+            builder.HasKey(x => new { x.RoleId, x.MenuId });
+            builder.Property(x => x.MenuId).HasMaxLength(50);
+            builder.HasOne(x => x.Role).WithMany(x => x.RoleMenus).HasForeignKey(x => x.RoleId).OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(x => x.Menu).WithMany(x => x.RoleMenus).HasForeignKey(x => x.MenuId).OnDelete(DeleteBehavior.Restrict);
         }
     }
 

@@ -18,6 +18,7 @@ namespace OSM.Infrastructure.Persistence
         public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
         public DbSet<Permission> Permissions => Set<Permission>();
         public DbSet<RoleMenuPermission> RoleMenuPermissions => Set<RoleMenuPermission>();
+        public DbSet<RoleMenu> RoleMenus => Set<RoleMenu>();
         public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
         public DbSet<Menus> Menus => Set<Menus>();
         public DbSet<Code_Data> Code_Data => Set<Code_Data>();

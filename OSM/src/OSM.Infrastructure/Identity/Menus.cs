@@ -40,6 +40,7 @@ namespace OSM.Infrastructure.Identity
         public DateTimeOffset? ModifiedAt { get; set; }
         public string? ModifiedBy { get; set; }
         public ICollection<RoleMenuPermission> RoleMenuPermissions { get; set; } = [];
+        public ICollection<RoleMenu> RoleMenus { get; set; } = [];
         public ICollection<Menus> ChildMenus { get; set; } = [];
     }
 }

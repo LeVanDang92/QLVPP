@@ -1,5 +1,5 @@
 <div class="grid-card">
-  <div class="grid-header" *ngIf="title || showSearch">
+  <div class="grid-header" *ngIf="title || showSearch || showBatchActions">
     <h3 *ngIf="title">{{ title }}</h3>
 
     <div class="search-box" *ngIf="showSearch">
@@ -20,9 +20,12 @@
     [gridOptions]="gridOptions"
     [quickFilterText]="search"
     [rowSelection]="rowSelection"
+    [getRowId]="getRowId"
+    [animateRows]="true"
+    (gridReady)="onGridReady($event)"
     (rowClicked)="onRowClicked($event)"
     (selectionChanged)="onSelectionChanged($event)"
-    [animateRows]="true"
+    (cellValueChanged)="onCellValueChanged($event)"
   >
   </ag-grid-angular>
 </div>
