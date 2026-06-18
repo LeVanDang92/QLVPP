@@ -74,6 +74,7 @@ export class RoleComponent implements OnInit {
         alert('Role created successfully!');
         this.roles.update((currentRoles) => [...currentRoles, createdRole]);
         this.form.reset();
+        this.selectedRole.set(null);
       },
       error: (error) => {
         this.serverValidationErrorService.applyErrors(this.form, error);
@@ -94,6 +95,10 @@ export class RoleComponent implements OnInit {
       name: this.form.value.name!,
       description: this.form.value.description!,
     };
+
+    if (!confirm(`Are you sure you want to update role "${updatedRole.name}"?`)) {
+      return;
+    }
 
     this.roleService.updateRole(updatedRole).subscribe({
       next: (role) => {

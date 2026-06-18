@@ -11,12 +11,13 @@ import { CodedataService } from '../../../../core/services/codedata.service';
 import { FormSignalService } from '../../../../shared/services/FormSignalService';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ServerValidationErrorService } from '../../../../shared/services/server-validation-error.service';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-menu',
-  imports: [SetupPageLayout, AgGridWrapperComponent, ReactiveFormsModule, FormErrorDirective],
+  imports: [SetupPageLayout, AgGridWrapperComponent, ReactiveFormsModule, FormErrorDirective,TranslatePipe],
   templateUrl: './menu.html',
   styleUrls: ['./menu.scss'],
 })
@@ -26,6 +27,7 @@ export class MenuComponent implements OnInit {
   private codeDataService = inject(CodedataService);
   private formSignalService = inject(FormSignalService);
   private serverValidationErrorService = inject(ServerValidationErrorService);
+  private readonly translate = inject(TranslateService);
 
   breadcrumb = signal(this.route.snapshot.data['breadcrumb'] ?? '');
   title = signal(this.route.snapshot.data['title'] ?? '');
@@ -53,19 +55,19 @@ export class MenuComponent implements OnInit {
       editable: false,
     },
     { field: 'menuId', headerName: 'Menu ID', editable: false },
-    { field: 'menuName', headerName: 'Menu Name' , editable: false },
-    { field: 'menuShortName', headerName: 'Menu Short Name', editable: false  },
-    { field: 'menuType', headerName: 'Menu Type' , editable: false },
-    { field: 'menuGroup', headerName: 'Menu Group' , editable: false },
-    { field: 'menuUrl', headerName: 'Menu URL' , editable: false },
-    { field: 'externalUrl', headerName: 'External URL' , editable: false },
-    { field: 'parentMenuId', headerName: 'Parent Menu ID', editable: false  },
-    { field: 'iconClass', headerName: 'Icon Class' , editable: false },
-    { field: 'displayOrder', headerName: 'Display Order' , editable: false },
-    { field: 'isActive', headerName: 'Is Active' , editable: false },
-    { field: 'closable', headerName: 'Closable' , editable: false },
-    { field: 'badgeText', headerName: 'Badge Text' , editable: false },
-    { field: 'badgeClass', headerName: 'Badge Class' , editable: false },
+    { field: 'menuName', headerName: 'Menu Name', editable: false },
+    { field: 'menuShortName', headerName: 'Menu Short Name', editable: false },
+    { field: 'menuType', headerName: 'Menu Type', editable: false },
+    { field: 'menuGroup', headerName: 'Menu Group', editable: false },
+    { field: 'menuUrl', headerName: 'Menu URL', editable: false },
+    { field: 'externalUrl', headerName: 'External URL', editable: false },
+    { field: 'parentMenuId', headerName: 'Parent Menu ID', editable: false },
+    { field: 'iconClass', headerName: 'Icon Class', editable: false },
+    { field: 'displayOrder', headerName: 'Display Order', editable: false },
+    { field: 'isActive', headerName: 'Is Active', editable: false },
+    { field: 'closable', headerName: 'Closable', editable: false },
+    { field: 'badgeText', headerName: 'Badge Text', editable: false },
+    { field: 'badgeClass', headerName: 'Badge Class', editable: false },
   ];
 
   private fb = inject(FormBuilder);
@@ -151,6 +153,10 @@ export class MenuComponent implements OnInit {
       return;
     }
 
+    if (!confirm(`Are you sure you want to delete menu "${menuId}"?`)) {
+      return;
+    }
+
     this.menuService.deleteMenu(menuId).subscribe({
       next: () => {
         alert('Delete menu success!');
@@ -205,6 +211,10 @@ export class MenuComponent implements OnInit {
   }
 
   private updateMenu(menu: Menu): void {
+    if (!confirm(this.translate.instant('COMMON.CONFIRM_UPDATE'))) {
+      return;
+    }
+
     this.menuService.updateMenu(menu.menuId, menu).subscribe({
       next: (updatedMenu) => {
         this.rowData.update((menus) =>

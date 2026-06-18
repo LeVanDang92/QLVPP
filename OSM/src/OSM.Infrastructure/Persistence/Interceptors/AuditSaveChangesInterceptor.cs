@@ -41,6 +41,7 @@ namespace OSM.Infrastructure.Persistence.Interceptors
 
             var now = DateTimeOffset.UtcNow;
             var userId = currentUserService.UserId ?? "system";
+            var userName = currentUserService.UserName ?? "system";
             var auditLogs = new List<AuditLog>();
 
             foreach (var entry in context.ChangeTracker.Entries().ToList())
@@ -55,19 +56,19 @@ namespace OSM.Infrastructure.Persistence.Interceptors
                     if (entry.State == EntityState.Added)
                     {
                         auditable.CreatedAt = now;
-                        auditable.CreatedBy = userId;
+                        auditable.CreatedBy = userName;
                     }
                     else if (entry.State == EntityState.Modified)
                     {
                         auditable.ModifiedAt = now;
-                        auditable.ModifiedBy = userId;
+                        auditable.ModifiedBy = userName;
                     }
                 }
 
                 if (entry.Entity is ISoftDelete softDelete && entry.State == EntityState.Modified && softDelete.IsDeleted)
                 {
                     softDelete.DeletedAt ??= now;
-                    softDelete.DeletedBy ??= userId;
+                    softDelete.DeletedBy ??= userName;
                 }
 
                 var audit = CreateAuditLog(entry, userId, now);

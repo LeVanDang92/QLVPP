@@ -1,0 +1,42 @@
+{
+  "COMMON": {
+    "CREATE": "Create",
+    "UPDATE": "Update",
+    "DELETE": "Delete",
+    "RESET": "Reset",
+    "SAVE": "Save",
+    "SEARCH": "Search",
+    "SELECT": "Select",
+    "CONFIRM_UPDATE": "Are you sure you want to update?",
+    "NO_DATA": "No data"
+  },
+  "MENU": {
+    "TITLE": "Menu Setup",
+    "SECTION_TITLE": "Menu Management",
+    "LIST": "Menu List",
+    "DETAIL": "Menu Detail",
+    "MENU_ID": "Menu ID",
+    "MENU_NAME": "Menu Name",
+    "MENU_SHORT_NAME": "Short Name",
+    "MENU_TYPE": "Menu Type",
+    "MENU_GROUP": "Menu Group",
+    "MENU_URL": "Menu URL",
+    "EXTERNAL_URL": "External URL",
+    "PARENT_MENU": "Parent Menu",
+    "ICON": "Icon",
+    "DISPLAY_ORDER": "Display Order",
+    "BADGE_TEXT": "Badge Text",
+    "BADGE_CLASS": "Badge Class",
+    "ACTIVE": "Active",
+    "CLOSABLE": "Closable"
+  },
+  "ROLE_MENU_PERMISSION": {
+    "TITLE": "Role Menu Permission",
+    "SELECT_ROLE": "Select role...",
+    "UNSAVED_CHANGES": "Unsaved changes",
+    "READ": "Read",
+    "WRITE": "Write",
+    "DELETE": "Delete",
+    "SELECTED": "Selected"
+  }
+}

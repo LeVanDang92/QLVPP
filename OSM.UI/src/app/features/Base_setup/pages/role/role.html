@@ -13,42 +13,101 @@
   (delete)="onDelete()"
   (reset)="onReset()">
 
-   <div class="grid-card">
-      <h3>Role List</h3>
+  <div class="role-setup-container">
+    <section class="detail-card">
+      <div class="card-header">
+        <div>
+          <h3>Role Detail</h3>
+          <p>Create or update role information.</p>
+        </div>
 
-      <table class="role-table">
-        <thead>
-          <tr>
-            <th>Role Name</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          @for (role of roles(); track role.id) {
-            <tr
-              [class.selected]="selectedRole()?.id === role.id"
-              (click)="selectRole(role)">
-              <td>{{ role.name }}</td>
-              <td>{{ role.description }}</td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
-    <hr>
-    <div class="detail-card">
-      <h3>Role Detail</h3>
+        @if (selectedRole()) {
+          <span class="mode-badge edit">Edit mode</span>
+        } @else {
+          <span class="mode-badge create">Create mode</span>
+        }
+      </div>
 
       <form [formGroup]="form" class="role-form">
-        <div class="form-row">
-          <label>Role Name: <span>*</span></label>
-          <input type="text" formControlName="name" />
+        <div class="form-field">
+          <label for="roleName">Role Name <span>*</span></label>
+          <input
+            id="roleName"
+            type="text"
+            formControlName="name"
+            placeholder="Enter role name"
+          />
         </div>
-        <div class="form-row">
-          <label>Description:</label>
-          <textarea formControlName="description"></textarea>
+
+        <div class="form-field">
+          <label for="description">Description</label>
+          <textarea
+            id="description"
+            formControlName="description"
+            maxlength="150"
+            placeholder="Enter role description"
+          ></textarea>
+
+          <div class="field-hint">
+            <span>Maximum 150 characters</span>
+            <span>{{ form.get('description')?.value?.length || 0 }}/150</span>
+          </div>
         </div>
       </form>
-    </div>
+    </section>
+
+    <section class="grid-card">
+      <div class="card-header compact">
+        <div>
+          <h3>Role List</h3>
+          <p>{{ roles().length }} roles</p>
+        </div>
+      </div>
+
+      <div class="role-table-wrap">
+        <table class="role-table">
+          <thead>
+            <tr>
+              <th>Role Name</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (role of roles(); track role.id) {
+              <tr
+                [class.selected]="selectedRole()?.id === role.id"
+                (click)="selectRole(role)">
+                <td>
+                  <div class="role-name-cell">
+                    <span class="avatar-dot">
+                      {{ (role.name || '?').charAt(0).toUpperCase() }}
+                    </span>
+
+                    <div>
+                      <strong>{{ role.name }}</strong>
+                      <small>{{ role.id }}</small>
+                    </div>
+                  </div>
+                </td>
+
+                <td>
+                  <span class="description-text">
+                    {{ role.description || '-' }}
+                  </span>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="2" class="empty-cell">
+                  No roles found.
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
 </app-setup-page-layout>

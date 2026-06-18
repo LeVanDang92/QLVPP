@@ -1,49 +1,105 @@
-<div id="global-loader" style="display: none;">
-	<div class="page-loader"></div>
-</div>
+<div class="login-page">
+  <div class="login-shell">
+    <section class="login-brand-panel">
+      <div class="brand-content">
+        <div class="brand-logo">
+          <img src="assets/img/logo.svg" alt="OSM Logo" />
+        </div>
 
-<div class="main-wrapper">
-	<div class="container-fuild">
-		<div class="w-100 overflow-hidden position-relative flex-wrap d-block vh-100">
-			<div class="row justify-content-center align-items-center vh-100 overflow-auto flex-wrap ">
-				<div class="col-md-4 mx-auto vh-100">
-					<form action="index.html" class="vh-100">
-						<div class="vh-100 d-flex flex-column justify-content-between p-4 pb-0">
-							<div class=" mx-auto mb-5 text-center">
-								<img src="assets/img/logo.svg" class="img-fluid" alt="Logo">
-							</div>
-							<div class="">
-								<div class="text-center mb-3">
-									<h2 class="mb-2">Sign In</h2>
-									<p class="mb-0">Please enter your details to sign in</p>
-								</div>
-								<div class="mb-3">
-									<label class="form-label">Username</label>
-									<div class="input-group">
-										<input type="text" [value]="userName()" (input)="userName.set($event.target.value)" (keyup.enter)="login()" class="form-control border-end-0">
-										<span class="input-group-text border-start-0">
-											<i class="ti ti-user"></i>
-										</span>
-									</div>
-								</div>
-								<div class="mb-3">
-									<label class="form-label">Password</label>
-									<div class="pass-group">
-										<input type="password" [value]="password()" (input)="password.set($event.target.value)" (keyup.enter)="login()" class="pass-input form-control">
-										<span class="ti toggle-password ti-eye-off"></span>
-									</div>
-								</div>
-								<div class="mb-3">
-									<button type="button" class="btn btn-primary w-100" (click)="login()">Sign In</button>
-								</div>
-							</div>
-							<div class="mt-5 pb-4 text-center">
-								<p class="mb-0 text-gray-9">Copyright &copy; 2026 - OSM</p>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+        <h1>Welcome OSM</h1>
+        <p>
+          Sign in to manage operation setup, menus, roles, permissions and system configuration.
+        </p>
+      </div>
+
+      <div class="brand-footer">
+        <span>OSM System</span>
+        <strong>2026</strong>
+      </div>
+    </section>
+
+    <section class="login-card">
+      <div class="mobile-logo">
+        <img src="assets/img/logo.svg" alt="OSM Logo" />
+      </div>
+
+      <div class="login-header">
+        <h2>Sign In</h2>
+        <p>Please enter your account details.</p>
+      </div>
+
+      @if (errorMessage()) {
+        <div class="login-alert">
+          <i class="ti ti-alert-circle"></i>
+          <span>{{ errorMessage() }}</span>
+        </div>
+      }
+
+      <div class="form-group">
+        <label for="userName">Username</label>
+
+        <div class="input-control">
+          <i class="ti ti-user"></i>
+          <input
+            id="userName"
+            type="text"
+            autocomplete="username"
+            placeholder="Enter username or email"
+            [value]="userName()"
+            [disabled]="isLoading()"
+            (input)="userName.set($any($event.target).value)"
+            (keyup.enter)="login()"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+
+        <div class="input-control">
+          <i class="ti ti-lock"></i>
+
+          <input
+            id="password"
+            [type]="isPasswordVisible() ? 'text' : 'password'"
+            autocomplete="current-password"
+            placeholder="Enter password"
+            [value]="password()"
+            [disabled]="isLoading()"
+            (input)="password.set($any($event.target).value)"
+            (keyup.enter)="login()"
+          />
+
+          <button
+            type="button"
+            class="password-toggle"
+            tabindex="-1"
+            [disabled]="isLoading()"
+            (click)="togglePassword()"
+          >
+            <i class="ti" [class.ti-eye]="!isPasswordVisible()" [class.ti-eye-off]="isPasswordVisible()"></i>
+          </button>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="login-button"
+        [disabled]="isLoading()"
+        (click)="login()"
+      >
+        @if (isLoading()) {
+          <span class="spinner"></span>
+          <span>Signing in...</span>
+        } @else {
+          <span>Sign In</span>
+          <i class="ti ti-arrow-right"></i>
+        }
+      </button>
+
+      <p class="copyright">
+        Copyright © 2026 - OSM
+      </p>
+    </section>
+  </div>
 </div>

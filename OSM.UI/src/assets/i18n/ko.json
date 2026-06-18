@@ -1,0 +1,42 @@
+{
+  "COMMON": {
+    "CREATE": "생성",
+    "UPDATE": "수정",
+    "DELETE": "삭제",
+    "RESET": "초기화",
+    "SAVE": "저장",
+    "SEARCH": "검색",
+    "SELECT": "선택",
+    "CONFIRM_UPDATE": "수정하시겠습니까?",
+    "NO_DATA": "데이터가 없습니다"
+  },
+  "MENU": {
+    "TITLE": "메뉴 설정",
+    "SECTION_TITLE": "메뉴 관리",
+    "LIST": "메뉴 목록",
+    "DETAIL": "메뉴 상세",
+    "MENU_ID": "메뉴 ID",
+    "MENU_NAME": "메뉴명",
+    "MENU_SHORT_NAME": "짧은 이름",
+    "MENU_TYPE": "메뉴 유형",
+    "MENU_GROUP": "메뉴 그룹",
+    "MENU_URL": "메뉴 URL",
+    "EXTERNAL_URL": "외부 URL",
+    "PARENT_MENU": "상위 메뉴",
+    "ICON": "아이콘",
+    "DISPLAY_ORDER": "표시 순서",
+    "BADGE_TEXT": "배지 텍스트",
+    "BADGE_CLASS": "배지 클래스",
+    "ACTIVE": "활성",
+    "CLOSABLE": "닫기 가능"
+  },
+  "ROLE_MENU_PERMISSION": {
+    "TITLE": "역할 메뉴 권한",
+    "SELECT_ROLE": "역할 선택...",
+    "UNSAVED_CHANGES": "저장되지 않은 변경사항",
+    "READ": "읽기",
+    "WRITE": "쓰기",
+    "DELETE": "삭제",
+    "SELECTED": "선택"
+  }
+}

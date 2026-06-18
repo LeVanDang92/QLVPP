@@ -17,9 +17,9 @@ export class TokenService {
     httpClient = inject(HttpClient);
 
    clearAuthData(): void {
-    localStorage.removeItem(AppConstants.ACCESS_TOKEN_KEY);
+    sessionStorage.removeItem(AppConstants.ACCESS_TOKEN_KEY);
     // localStorage.removeItem(AppConstants.REFRESH_TOKEN_KEY);
-    localStorage.removeItem(AppConstants.TOKEN_EXPIRY_KEY);
+    sessionStorage.removeItem(AppConstants.TOKEN_EXPIRY_KEY);
   }
 
    decodeToken(token: string): JwtPayload {
@@ -35,14 +35,14 @@ export class TokenService {
 
   // Save tokens to local storage
    saveToken(tokenResponse: TokenResponse) {
-    localStorage.setItem(AppConstants.ACCESS_TOKEN_KEY, tokenResponse.accessToken);
+    sessionStorage.setItem(AppConstants.ACCESS_TOKEN_KEY, tokenResponse.accessToken);
     // localStorage.setItem(AppConstants.REFRESH_TOKEN_KEY, tokenResponse.refreshToken);
-    localStorage.setItem(AppConstants.TOKEN_EXPIRY_KEY, tokenResponse.expiresAt);
+    sessionStorage.setItem(AppConstants.TOKEN_EXPIRY_KEY, tokenResponse.expiresAt);
   }
 
   // kiêm tra token có hợp lệ hay không (có tồn tại và chưa hết hạn)
   inValidToken(): boolean {
-    const token = localStorage.getItem(AppConstants.ACCESS_TOKEN_KEY);
+    const token = sessionStorage.getItem(AppConstants.ACCESS_TOKEN_KEY);
     if (!token) {
       return true;
     }

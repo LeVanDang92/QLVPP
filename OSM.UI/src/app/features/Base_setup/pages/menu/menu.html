@@ -1,116 +1,131 @@
-<app-setup-page-layout
-breadcrumb="{{ breadcrumb() }}"
-title="{{ title() }}"
-sectionTitle="{{ sectionTitle() }}"
-[createDisabled]="!!selectedMenu()"
-[updateDisabled]="!selectedMenu()"
-[deleteDisabled]="!selectedMenu()"
-[resetDisabled]="false"
-(create)="onCreate()"
-(update)="onUpdate()"
-(delete)="onDelete()"
-(reset)="onReset()">
+<app-setup-page-layout breadcrumb="{{ breadcrumb() }}" title="{{ title() }}" sectionTitle="{{ sectionTitle() }}"
+  [createDisabled]="!!selectedMenu()" [updateDisabled]="!selectedMenu()" [deleteDisabled]="!selectedMenu()"
+  [resetDisabled]="false" (create)="onCreate()" (update)="onUpdate()" (delete)="onDelete()" (reset)="onReset()">
 
-  <app-ag-grid
-    title="Menu List"
-    rowIdField="menuId"
-    [showSearch]="true"
-    [rowData]="rowData()"
-    [columnDefs]="colDefs"
-    [defaultColDef]="defaultColDef"
-    [gridOptions]="gridOptions"
-    [enableBatchEdit]="false"
-    rowSelection="single"
-    (rowClicked)="onRowClicked($event)">
-  </app-ag-grid>
-  <hr>
+  <div class="menu-page">
+    <section class="grid-section">
+      <app-ag-grid title="Menu List" [showSearch]="true" [rowData]="rowData()" [columnDefs]="colDefs"
+        [defaultColDef]="defaultColDef" [gridOptions]="gridOptions" rowSelection="single"
+        (rowClicked)="onRowClicked($event)">
+      </app-ag-grid>
+    </section>
 
-  <div class="menu-setup-container">
-    <div class="detail-card">
-       <h3>Menu Detail</h3>
-      <form [formGroup]="form" class="menu-form">
-        <div class="form-row">
-          <label>Menu ID: <span>*</span></label>
-          <input type="text" formControlName="menuId">
+    <section class="detail-card compact-detail">
+      <div class="card-header compact-header">
+        <div>
+         <h3>{{ 'MENU.DETAIL' | translate }}</h3>
+          <p>{{ 'MENU.SECTION_TITLE' | translate }}</p>
         </div>
 
-        <div class="form-row">
-          <label>Menu Name: <span>*</span></label>
-          <input type="text" formControlName="menuName" />
+        @if (selectedMenu()) {
+        <span class="mode-badge edit">Edit</span>
+        } @else {
+        <span class="mode-badge create">Create</span>
+        }
+      </div>
+
+      <form [formGroup]="form" class="menu-form compact-form">
+        <div class="form-grid compact-grid">
+          <div class="form-field">
+            <label for="menuId">Menu ID <span>*</span></label>
+            <input id="menuId" type="text" formControlName="menuId" placeholder="menuSetup" />
+          </div>
+
+          <div class="form-field">
+            <label for="menuName">Menu Name <span>*</span></label>
+            <input id="menuName" type="text" formControlName="menuName" placeholder="Menu Setup" />
+          </div>
+
+          <div class="form-field">
+            <label for="menuShortName">Short Name <span>*</span></label>
+            <input id="menuShortName" type="text" formControlName="menuShortName" placeholder="Menu" />
+          </div>
+
+          <div class="form-field">
+            <label for="displayOrder">Order</label>
+            <input id="displayOrder" type="number" min="0" formControlName="displayOrder" placeholder="0" />
+          </div>
+
+          <div class="form-field">
+            <label for="menuType">Menu Type <span>*</span></label>
+            <select id="menuType" formControlName="menuType">
+              <option value="">Select...</option>
+              @for (type of menuTypes(); track type.data_Code) {
+              <option [value]="type.data_Code">
+                {{ type.data_Code }} :: {{ type.data_Value }}
+              </option>
+              }
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="menuGroup">Menu Group <span>*</span></label>
+            <select id="menuGroup" formControlName="menuGroup">
+              <option value="">Select...</option>
+              @for (group of menuGroups(); track group.data_Code) {
+              <option [value]="group.data_Code">
+                {{ group.data_Code }} :: {{ group.data_Value }}
+              </option>
+              }
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="parentMenuId">Parent Menu</label>
+            <input id="parentMenuId" type="text" formControlName="parentMenuId" placeholder="settings" />
+          </div>
+
+          <div class="form-field">
+            <label for="iconClass">Icon</label>
+            <input id="iconClass" type="text" formControlName="iconClass" placeholder="ti ti-settings" />
+          </div>
+
+          <div class="form-field wide">
+            <label for="menuUrl">Menu URL</label>
+            <input id="menuUrl" type="text" formControlName="menuUrl" placeholder="/menu" />
+          </div>
+
+          <div class="form-field wide">
+            <label for="externalUrl">External URL</label>
+            <input id="externalUrl" type="text" formControlName="externalUrl" placeholder="https://..." />
+          </div>
+
+          <div class="form-field">
+            <label for="badgeText">Badge Text</label>
+            <input id="badgeText" type="text" formControlName="badgeText" placeholder="New" />
+          </div>
+
+          <div class="form-field">
+            <label for="badgeClass">Badge Class</label>
+            <input id="badgeClass" type="text" formControlName="badgeClass" placeholder="badge bg-primary" />
+          </div>
         </div>
 
-        <div class="form-row">
-          <label>Menu Short Name: <span>*</span></label>
-          <input type="text" formControlName="menuShortName" />
+        <div class="compact-toggle-row">
+          <label class="mini-switch">
+            <input type="checkbox" formControlName="isActive" />
+            <span></span>
+            <strong>Active</strong>
+          </label>
+
+          <label class="mini-switch">
+            <input type="checkbox" formControlName="closable" />
+            <span></span>
+            <strong>Closable</strong>
+          </label>
         </div>
-
-        <div class="form-row">
-          <label>Menu Type: <span>*</span></label>
-          <select formControlName="menuType">
-            <option value="">Select...</option>
-            @for (type of menuTypes(); track type.data_Code) {
-              <option [value]="type.data_Code">{{ type.data_Code }} :: {{ type.data_Value }}</option>
-            }
-          </select>
-        </div>
-
-        <div class="form-row">
-          <label>Menu Group: <span>*</span></label>
-          <select formControlName="menuGroup">
-            <option value="">Select...</option>
-            @for (group of menuGroups(); track group.data_Code) {
-              <option [value]="group.data_Code">{{ group.data_Code }} :: {{ group.data_Value }}</option>
-            }
-          </select>
-        </div>
-
-        <div class="form-row">
-          <label>Menu URL:</label>
-          <input type="text" formControlName="menuUrl" />
-        </div>
-
-        <div class="form-row">
-          <label>External URL:</label>
-          <input type="text" formControlName="externalUrl" />
-        </div>
-
-        <div class="form-row">
-          <label>Parent Menu ID:</label>
-          <input type="text" formControlName="parentMenuId" />
-        </div>
-
-        <div class="form-row">
-          <label>Icon Class:</label>
-          <input type="text" formControlName="iconClass" />
-        </div>
-
-        <!-- Additional fields for badgeText and badgeClass -->
-        <div class="form-row">
-          <label>Badge Text:</label>
-          <input type="text" formControlName="badgeText" />
-        </div>
-
-        <div class="form-row">
-          <label>Badge Class:</label>
-          <input type="text" formControlName="badgeClass" />
-         </div>
-
-         <div class="form-row">
-          <label>Display Order</label>
-          <input type="number" formControlName="displayOrder" min="0">
-         </div>
-
-         <div class="form-row checkbox-row">
-          <label>Is Active</label>
-          <input type="checkbox" formControlName="isActive">
-         </div>
-
-         <div class="form-row checkbox-row">
-          <label>Closeable</label>
-          <input type="checkbox" formControlName="closable">
-         </div>
       </form>
-    </div>
+    </section>
   </div>
 
 </app-setup-page-layout>
+
+<!-- common sử dụng setup-form.scss -->
+<!-- <section class="setup-card setup-card--accent">
+  <div class="setup-card-header"></div>
+  <form class="setup-form">
+    <div class="setup-form-grid">
+      <div class="setup-form-field"></div>
+    </div>
+  </form>
+</section> -->

@@ -1,0 +1,42 @@
+{
+  "COMMON": {
+    "CREATE": "Tạo mới",
+    "UPDATE": "Cập nhật",
+    "DELETE": "Xóa",
+    "RESET": "Làm mới",
+    "SAVE": "Lưu",
+    "SEARCH": "Tìm kiếm",
+    "SELECT": "Chọn",
+    "CONFIRM_UPDATE": "Bạn có chắc muốn cập nhật không?",
+    "NO_DATA": "Không có dữ liệu"
+  },
+  "MENU": {
+    "TITLE": "Menu Setup",
+    "SECTION_TITLE": "Quản lý menu",
+    "LIST": "Danh sách menu",
+    "DETAIL": "Chi tiết menu",
+    "MENU_ID": "Menu ID",
+    "MENU_NAME": "Tên menu",
+    "MENU_SHORT_NAME": "Tên ngắn",
+    "MENU_TYPE": "Loại menu",
+    "MENU_GROUP": "Nhóm menu",
+    "MENU_URL": "Đường dẫn menu",
+    "EXTERNAL_URL": "Đường dẫn ngoài",
+    "PARENT_MENU": "Menu cha",
+    "ICON": "Icon",
+    "DISPLAY_ORDER": "Thứ tự",
+    "BADGE_TEXT": "Badge Text",
+    "BADGE_CLASS": "Badge Class",
+    "ACTIVE": "Kích hoạt",
+    "CLOSABLE": "Cho phép đóng"
+  },
+  "ROLE_MENU_PERMISSION": {
+    "TITLE": "Role Menu Permission",
+    "SELECT_ROLE": "Chọn role...",
+    "UNSAVED_CHANGES": "Có thay đổi chưa lưu",
+    "READ": "Đọc",
+    "WRITE": "Ghi",
+    "DELETE": "Xóa",
+    "SELECTED": "Chọn menu"
+  }
+}

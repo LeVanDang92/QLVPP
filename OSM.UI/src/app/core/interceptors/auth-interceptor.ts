@@ -16,7 +16,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   const tokenService = inject(TokenService);
   const router = inject(Router);
-  const token = localStorage.getItem(AppConstants.ACCESS_TOKEN_KEY);
+  const token = sessionStorage.getItem(AppConstants.ACCESS_TOKEN_KEY);
 
   console.log('Intercepting request to:', req.url);
 

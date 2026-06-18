@@ -75,7 +75,8 @@ export class MenuroleComponent implements OnInit {
       field: 'parentMenuId',
       headerName: 'Parent',
       width: 140,
-      valueFormatter: (params: ValueFormatterParams<RoleMenuPermissionRow, string | null>) => params.value ?? '',
+      valueFormatter: (params: ValueFormatterParams<RoleMenuPermissionRow, string | null>) =>
+        params.value ?? '',
     },
     {
       field: 'isSelected',
@@ -138,19 +139,19 @@ export class MenuroleComponent implements OnInit {
     }
 
     if (!this.hasChanged()) {
-    alert('No changes to update.');
-    return;
-  }
+      alert('No changes to update.');
+      return;
+    }
 
-  const selectedRole = this.roles().find((role) => role.id === roleId);
+    const selectedRole = this.roles().find((role) => role.id === roleId);
 
-  const confirmed = confirm(
-    `Are you sure you want to update menu permissions for role "${selectedRole?.name ?? roleId}"?`
-  );
+    const confirmed = confirm(
+      `Are you sure you want to update menu permissions for role "${selectedRole?.name ?? roleId}"?`,
+    );
 
-  if (!confirmed) {
-    return;
-  }
+    if (!confirmed) {
+      return;
+    }
 
     const request: UpdateRoleMenuPermissionsRequest = {
       items: this.rowData().map((row) => ({
@@ -230,124 +231,119 @@ export class MenuroleComponent implements OnInit {
     this.hasChanged.set(false);
   }
 
-private applyPermissionRules(
-  rows: RoleMenuPermissionRow[],
-  changedRow: RoleMenuPermissionRow,
-  changedField: PermissionField
-): void {
-  if (changedField === 'isSelected') {
-    if (changedRow.isSelected) {
-      changedRow.canRead = true;
-    } else {
-      changedRow.canRead = false;
-      changedRow.canWrite = false;
-      changedRow.canDelete = false;
+  private applyPermissionRules(
+    rows: RoleMenuPermissionRow[],
+    changedRow: RoleMenuPermissionRow,
+    changedField: PermissionField,
+  ): void {
+    if (changedField === 'isSelected') {
+      if (changedRow.isSelected) {
+        changedRow.canRead = true;
+      } else {
+        changedRow.canRead = false;
+        changedRow.canWrite = false;
+        changedRow.canDelete = false;
+      }
     }
-  }
 
-  if (changedField === 'canRead') {
-    if (changedRow.canRead) {
-      changedRow.isSelected = true;
-    } else {
-      changedRow.isSelected = false;
-      changedRow.canWrite = false;
-      changedRow.canDelete = false;
+    if (changedField === 'canRead') {
+      if (changedRow.canRead) {
+        changedRow.isSelected = true;
+      } else {
+        changedRow.isSelected = false;
+        changedRow.canWrite = false;
+        changedRow.canDelete = false;
+      }
     }
-  }
 
-  if (changedField === 'canWrite') {
-    if (changedRow.canWrite) {
-      changedRow.isSelected = true;
-      changedRow.canRead = true;
+    if (changedField === 'canWrite') {
+      if (changedRow.canWrite) {
+        changedRow.isSelected = true;
+        changedRow.canRead = true;
+      }
     }
-  }
 
-  if (changedField === 'canDelete') {
-    if (changedRow.canDelete) {
-      changedRow.isSelected = true;
-      changedRow.canRead = true;
+    if (changedField === 'canDelete') {
+      if (changedRow.canDelete) {
+        changedRow.isSelected = true;
+        changedRow.canRead = true;
+      }
     }
-  }
 
-  this.syncParentMenus(rows);
-}
+    this.syncParentMenus(rows);
+  }
 
   private syncParentMenus(rows: RoleMenuPermissionRow[]): void {
-  const rowById = new Map(rows.map((row) => [row.menuId, row]));
+    const rowById = new Map(rows.map((row) => [row.menuId, row]));
 
-  const childrenByParent = new Map<string, RoleMenuPermissionRow[]>();
+    const childrenByParent = new Map<string, RoleMenuPermissionRow[]>();
 
-  rows.forEach((row) => {
-    if (!row.parentMenuId) {
-      return;
-    }
-
-    const children = childrenByParent.get(row.parentMenuId) ?? [];
-    children.push(row);
-    childrenByParent.set(row.parentMenuId, children);
-  });
-
-  const orderedRows = [...rows].sort((a, b) => (b.level ?? 0) - (a.level ?? 0));
-
-  orderedRows.forEach((row) => {
-    const children = childrenByParent.get(row.menuId) ?? [];
-
-    if (children.length === 0) {
-      return;
-    }
-
-    const hasSelectedChild = children.some((child) =>
-      this.isRowSelected(child)
-    );
-
-    if (hasSelectedChild) {
-      row.isSelected = true;
-      row.canRead = true;
-      return;
-    }
-
-    row.isSelected = false;
-    row.canRead = false;
-    row.canWrite = false;
-    row.canDelete = false;
-  });
-
-  rows.forEach((row) => {
-    if (!this.isRowSelected(row)) {
-      return;
-    }
-
-    let parentMenuId = row.parentMenuId;
-    const visited = new Set<string>();
-
-    while (parentMenuId && !visited.has(parentMenuId)) {
-      visited.add(parentMenuId);
-
-      const parentRow = rowById.get(parentMenuId);
-
-      if (!parentRow) {
+    rows.forEach((row) => {
+      if (!row.parentMenuId) {
         return;
       }
 
-      parentRow.isSelected = true;
-      parentRow.canRead = true;
+      const children = childrenByParent.get(row.parentMenuId) ?? [];
+      children.push(row);
+      childrenByParent.set(row.parentMenuId, children);
+    });
 
-      parentMenuId = parentRow.parentMenuId;
-    }
-  });
-}
+    const orderedRows = [...rows].sort((a, b) => (b.level ?? 0) - (a.level ?? 0));
 
-private isRowSelected(row: RoleMenuPermissionRow): boolean {
-  return Boolean(
-    row.isSelected ||
-    row.canRead ||
-    row.canWrite ||
-    row.canDelete
-  );
-}
+    orderedRows.forEach((row) => {
+      const children = childrenByParent.get(row.menuId) ?? [];
+
+      if (children.length === 0) {
+        return;
+      }
+
+      const hasSelectedChild = children.some((child) => this.isRowSelected(child));
+
+      if (hasSelectedChild) {
+        row.isSelected = true;
+        row.canRead = true;
+        return;
+      }
+
+      row.isSelected = false;
+      row.canRead = false;
+      row.canWrite = false;
+      row.canDelete = false;
+    });
+
+    rows.forEach((row) => {
+      if (!this.isRowSelected(row)) {
+        return;
+      }
+
+      let parentMenuId = row.parentMenuId;
+      const visited = new Set<string>();
+
+      while (parentMenuId && !visited.has(parentMenuId)) {
+        visited.add(parentMenuId);
+
+        const parentRow = rowById.get(parentMenuId);
+
+        if (!parentRow) {
+          return;
+        }
+
+        parentRow.isSelected = true;
+        parentRow.canRead = true;
+
+        parentMenuId = parentRow.parentMenuId;
+      }
+    });
+  }
+
+  private isRowSelected(row: RoleMenuPermissionRow): boolean {
+    return Boolean(row.isSelected || row.canRead || row.canWrite || row.canDelete);
+  }
 
   private updateChangedState(rows: RoleMenuPermissionRow[]): void {
-    this.hasChanged.set(this.toPermissionSnapshot(rows) !== this.toPermissionSnapshot(this.originalRows()));
+    this.hasChanged.set(
+      this.toPermissionSnapshot(rows) !== this.toPermissionSnapshot(this.originalRows()),
+    );
   }
 
   private toPermissionSnapshot(rows: RoleMenuPermissionRow[]): string {
@@ -358,7 +354,7 @@ private isRowSelected(row: RoleMenuPermissionRow): boolean {
         canRead: row.canRead,
         canWrite: row.canWrite,
         canDelete: row.canDelete,
-      }))
+      })),
     );
   }
 
@@ -396,7 +392,9 @@ private isRowSelected(row: RoleMenuPermissionRow): boolean {
   }
 
   private isPermissionField(field: string): field is PermissionField {
-    return field === 'isSelected' || field === 'canRead' || field === 'canWrite' || field === 'canDelete';
+    return (
+      field === 'isSelected' || field === 'canRead' || field === 'canWrite' || field === 'canDelete'
+    );
   }
 
   private cloneRows(rows: RoleMenuPermissionRow[]): RoleMenuPermissionRow[] {

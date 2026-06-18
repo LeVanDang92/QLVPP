@@ -1,8 +1,9 @@
 import { Component, input, output } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-setup-toolbar',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './setup-toolbar.html',
   styleUrl: './setup-toolbar.scss',
 })

@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, HostListener, inject } from '@angular/core';
 import { HorizontalMenuComponent } from '../menu/horizontal-menu/horizontal-menu.component';
 import { AuthenticationService } from '../../../features/Auth/services/authentication.service';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-header',
@@ -15,6 +16,15 @@ export class HeaderComponent implements AfterViewInit {
   }
 
   authService = inject(AuthenticationService);
+  languageService = inject(LanguageService);
+  languages = this.languageService.languages;
+  currentLanguage = this.languageService.currentLanguage;
+
+
+  onLanguageChange(event: Event): void {
+    const languageCode = (event.target as HTMLSelectElement).value;
+    this.languageService.changeLanguage(languageCode);
+  }
 
   @HostListener('click', ['$event'])
   handleClick(event: MouseEvent): void {

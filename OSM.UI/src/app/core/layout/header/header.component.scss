@@ -1,1 +1,74 @@
-/* Header template is converted from the uploaded SmartHR index.html. */
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.avatar-lg {
+  width: 40px;
+  height: 40px;
+}
+
+.avatar-rounded {
+  border-radius: 50%;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: inherit;
+  display: block;
+}
+
+.language-selector {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.language-selector select {
+  height: 34px;
+  min-width: 116px;
+  padding: 0 32px 0 12px;
+
+  color: #1f2937;
+  background: #ffffff;
+  border: 1px solid #d7e0ea;
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 700;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+
+  background-image:
+    linear-gradient(45deg, transparent 50%, #64748b 50%),
+    linear-gradient(135deg, #64748b 50%, transparent 50%);
+  background-position:
+    calc(100% - 16px) 14px,
+    calc(100% - 11px) 14px;
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+
+  transition:
+    border-color 0.16s ease,
+    box-shadow 0.16s ease,
+    background-color 0.16s ease;
+}
+
+.language-selector select:hover {
+  border-color: #9ca3af;
+}
+
+.language-selector select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.13);
+}

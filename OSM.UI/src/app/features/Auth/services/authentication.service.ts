@@ -84,7 +84,7 @@ loadMe(): Observable<CurrentUserResponse> {
       return of(this.currentUser()!);
     }
 
-    const token = localStorage.getItem(AppConstants.ACCESS_TOKEN_KEY);
+    const token = sessionStorage.getItem(AppConstants.ACCESS_TOKEN_KEY);
 
     if (token) {
       const headers = new HttpHeaders({

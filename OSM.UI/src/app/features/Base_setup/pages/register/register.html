@@ -14,79 +14,150 @@
   (reset)="onReset()">
 
   <div class="user-setup-container">
-    <div class="detail-card">
+    <section class="detail-card">
+      <div class="card-header">
+        <div>
+          <h3>User Information</h3>
+          <p>Create or update user account information.</p>
+        </div>
+
+        @if (selectedUser()) {
+          <span class="mode-badge edit">Edit mode</span>
+        } @else {
+          <span class="mode-badge create">Create mode</span>
+        }
+      </div>
+
       <form [formGroup]="form" class="user-form">
-        <div class="form-row">
-          <label>User ID: <span>*</span></label>
-          <input type="text" formControlName="userId" />
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="userId">User ID <span>*</span></label>
+            <input
+              id="userId"
+              type="text"
+              formControlName="userId"
+              placeholder="Enter user ID"
+            />
+          </div>
+
+          <div class="form-field">
+            <label for="userName">User Name <span>*</span></label>
+            <input
+              id="userName"
+              type="text"
+              formControlName="userName"
+              placeholder="Enter user name"
+            />
+          </div>
+
+          <div class="form-field">
+            <label for="email">E-Mail <span>*</span></label>
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              placeholder="example@company.com"
+            />
+          </div>
+
+          <div class="form-field">
+            <label for="department">Department</label>
+            <select id="department" formControlName="department">
+              <option value="">Select department...</option>
+              @for (dept of departments(); track dept.data_Code) {
+                <option [value]="dept.data_Code">
+                  {{ dept.data_Value }}
+                </option>
+              }
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="role">Role <span>*</span></label>
+            <select id="role" formControlName="role">
+              <option value="">Select role...</option>
+              @for (role of roles(); track role.id) {
+                <option [value]="role.name">
+                  {{ role.name }}
+                </option>
+              }
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="passwordShow">Password <span>*</span></label>
+
+            <div class="password-control">
+              <input
+                id="passwordShow"
+                formControlName="passwordShow"
+                [type]="form.get('isShowPassword')?.value ? 'text' : 'password'"
+                placeholder="Enter password"
+              />
+
+              <label class="show-password">
+                <input type="checkbox" formControlName="isShowPassword" />
+                <span>Show</span>
+              </label>
+            </div>
+          </div>
         </div>
 
-        <div class="form-row">
-          <label>User Name: <span>*</span></label>
-          <input type="text" formControlName="userName" />
-        </div>
-
-        <div class="form-row two-columns">
-          <label>Password: <span>*</span></label>
-          <input type="password" formControlName="passwordShow" [type]="form.get('isShowPassword')?.value ? 'text' : 'password'" />
-
-          <label class="checkbox-label">
-            Show password:
+        <div class="form-footer">
+          <label class="switch-field">
+            <input type="checkbox" formControlName="isActive" />
+            <span class="switch"></span>
+            <span class="switch-text">Active user</span>
           </label>
-          <input type="checkbox" formControlName="isShowPassword"/>
         </div>
-
-        <div class="form-row two-columns">
-          <label>E-Mail:<span>*</span></label>
-          <input type="text" formControlName="email" />
-
-          <label class="checkbox-label"> Is Active:</label>
-          <input type="checkbox" formControlName="isActive"/>
-        </div>
-
-        <div class="form-row two-fields">
-          <label>Department:</label>
-          <select formControlName="department">
-            <option value="">Select...</option>
-            @for (dept of departments(); track dept.data_Code) {
-              <option [value]="dept.data_Code">{{ dept.data_Value }}</option>
-            }
-          </select>
-
-          <label>Role: <span>*</span></label>
-          <select formControlName="role">
-            @for (role of roles(); track role.id) {
-              <option [value]="role.name">{{ role.name }}</option>
-            }
-          </select>
-        </div>
-
       </form>
-    </div>
+    </section>
 
-    <div class="grid-card">
-      <h3>User List</h3>
+    <section class="grid-card">
+      <div class="card-header compact">
+        <div>
+          <h3>User List</h3>
+          <p>{{ users().length }} users</p>
+        </div>
+      </div>
 
-      <table class="user-table">
-        <thead>
-          <tr>
-            <th>User ID</th>
-            <th>User Name</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          @for (user of users(); track user.userId) {
-            <tr
-              [class.selected]="selectedUser()?.userId === user.userId"
-              (click)="selectUser(user)">
-              <td>{{ user.userId }}</td>
-              <td>{{ user.fullName }}</td>
+      <div class="user-table-wrap">
+        <table class="user-table">
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>User Name</th>
             </tr>
-          }
-        </tbody>
-      </table>
-    </div>
+          </thead>
+
+          <tbody>
+            @for (user of users(); track user.userId) {
+              <tr
+                [class.selected]="selectedUser()?.userId === user.userId"
+                (click)="selectUser(user)">
+                <td>
+                  <span class="user-id">{{ user.userId }}</span>
+                </td>
+                <td>
+                  <div class="user-name-cell">
+                    <span class="avatar-dot">
+                      {{ (user.userName || user.userId || '?').charAt(0).toUpperCase() }}
+                    </span>
+                    <span>{{ user.userName }}</span>
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="2" class="empty-cell">
+                  No users found.
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
   </div>
 
 </app-setup-page-layout>

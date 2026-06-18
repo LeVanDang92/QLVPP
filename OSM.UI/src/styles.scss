@@ -4,6 +4,7 @@
 // Learn more about theming and how to use it for your application's
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
+@use '../src/app/shared/styles/setup-form';
 
 @import "ag-grid-community/styles/ag-grid.css";
 @import "ag-grid-community/styles/ag-theme-alpine.css";
@@ -42,7 +43,7 @@ body {
 /* Global overrides for the Angular template. */
 :root {
   color-scheme: light;
-  --app-header-height: 60px;
+  --app-header-height: 52px;
   --app-tabs-height: 38px;
 }
 
@@ -72,3 +73,47 @@ app-page-tabs {
   padding-top: calc(var(--app-header-height) + 12px) !important;
 }
 
+/* Page tabs nằm dưới header */
+app-page-tabs {
+  display: block;
+  position: fixed;
+  top: var(--app-header-height, 52px);
+  right: 0;
+  left: 0;
+  z-index: 1100;
+  pointer-events: auto;
+}
+
+/* Header vẫn nằm trên tabs */
+.header,
+.app-header,
+.main-header {
+  z-index: 1200;
+}
+
+/*
+  Fix header-user che tabs:
+  container không bắt click ở vùng rỗng,
+  chỉ các button/link/dropdown bên trong mới bắt click.
+*/
+.header-user {
+  position: relative;
+  z-index: 1201;
+  height: var(--app-header-height, 52px);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.header-user *,
+.header-user button,
+.header-user a,
+.header-user .dropdown,
+.header-user .dropdown-menu {
+  pointer-events: auto;
+}
+
+/* Dropdown user vẫn nổi trên tab */
+.header-user .dropdown-menu {
+  z-index: 3000;
+}

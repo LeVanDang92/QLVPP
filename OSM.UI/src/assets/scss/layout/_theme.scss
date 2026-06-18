@@ -759,7 +759,7 @@
     #horizontal-menu {
         display: block;
     }
-    
+
 
     .header {
         left: 0;
@@ -8741,7 +8741,7 @@ body {
             width: 32px ;
             background-color: #B9B9C3;
         }
-    } 
+    }
     .form-check-input:checked  {
         background-color: variables.$secondary;
         border-color: variables.$secondary;
@@ -8760,10 +8760,10 @@ body {
                     &:hover {
                         color: variables.$primary !important;
                     }
-                }   
-            } 
-        } 
-    } 
+                }
+            }
+        }
+    }
 
     .input-group-flat {
         &:focus-within {
@@ -10085,7 +10085,7 @@ body {
     }
 
     .card-5 {
-        background: variables.$darkmode-danger-transparent !important; 
+        background: variables.$darkmode-danger-transparent !important;
         border: 1px solid variables.$darkmode-gray-200 !important;
     }
 
@@ -10266,7 +10266,7 @@ body {
         .nav-link {
             &.active {
                 background: variables.$primary;
-            }   
+            }
         }
     }
     .day-active-item {
@@ -10281,9 +10281,9 @@ body {
             }
         }
         &.one {
-            border: none !important; 
+            border: none !important;
         }
-    } 
+    }
     .card {
         &.bg-dark {
             background: variables.$darkmode-white !important;
@@ -10324,7 +10324,7 @@ body {
                 color: variables.$darkmode-white !important;
             }
         }
-    } 
+    }
     .item-new {
         background: transparent !important;
         border: none !important;
@@ -10343,7 +10343,7 @@ body {
             i {
                 color: variables.$darkmode-dark !important;
             }
-        }   
+        }
     }
 
     .chat-input-item {
@@ -10414,9 +10414,9 @@ body {
     .bg-warning-transparent {
         background: variables.$darkmode-warning-transparent !important;
     }
-    .apexcharts-xaxis-label tspan, 
+    .apexcharts-xaxis-label tspan,
     .apexcharts-yaxis-label tspan {
-        fill: variables.$darkmode-gray-600 !important; 
+        fill: variables.$darkmode-gray-600 !important;
     }
 
     .bg-primary-transparent {
@@ -10479,8 +10479,8 @@ body {
     .fc {
         .fc-toolbar-title {
             color: variables.$white;
-        }   
-    } 
+        }
+    }
 
     .chat-wrapper {
         .chat {
@@ -10490,11 +10490,11 @@ body {
                         .message-content {
                             color: variables.$gray-500 !important;
                         }
-                    } 
-                } 
-            } 
-        } 
-    } 
+                    }
+                }
+            }
+        }
+    }
     .bg-soft-transparent-success {
         background-color: #191b1a;
     }
@@ -10502,13 +10502,13 @@ body {
         &.bg-gray-200 {
             background: variables.$darkmode-light !important
         }
-    } 
+    }
     .date-card {
         background: variables.$darkmode-light !important;
     }
-    .avatar-lg.bg-primary-gradient , 
+    .avatar-lg.bg-primary-gradient ,
     .avatar-lg.bg-secondary-gradient,
-    .avatar-lg.bg-dark-gradient, 
+    .avatar-lg.bg-dark-gradient,
     .avatar-lg.bg-info-gradient,
     .avatar-lg.bg-success-gradient {
         i {
@@ -10535,7 +10535,7 @@ body {
         &.bg-gray {
             background: variables.$darkmode-light !important;
         }
-    } 
+    }
     .settings-list.list-group a.active {
         background: variables.$darkmode-light !important;
     }
@@ -10570,7 +10570,7 @@ body {
         color: variables.$white;
     }
     .preview-content .user-icon {
-        background: variables.$darkmode-light;  
+        background: variables.$darkmode-light;
     }
     .settings-img {
         filter: invert(1) brightness(21.5);
@@ -10598,7 +10598,7 @@ body {
                 }
             }
         }
-    } 
+    }
 
     .list-group  {
         .dropdown {
@@ -10678,7 +10678,7 @@ body {
     .dropdown-toggle .btn-check:checked + .btn, [data-color=primary] .btn.active, [data-color=primary] .btn.show, [data-color=primary] .btn.show:hover, [data-color=primary] .btn:first-child:active, [data-color=primary] :not(.btn-check) + .btn:active  {
         color: variables.$gray-900;
         background: variables.$light !important;
-    } 
+    }
     .dropdown-toggle {
         &.show {
             color: variables.$gray-900 !important;

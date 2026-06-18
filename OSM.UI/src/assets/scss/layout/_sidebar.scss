@@ -33,7 +33,7 @@
         .logo-small {
             display: none;
         }
-        
+
         @include mixins.respond-below(lg) {
             display: none;
         }
@@ -109,7 +109,7 @@
                     img{
                         color: #637381;
                     }
-                    
+
                     &.active{
                         background: rgba(254, 159, 67, 0.08);
                         color: #FE9F43;
@@ -203,7 +203,7 @@
                                 margin-left: auto;
                                 color: variables.$white !important;
                             }
-                        }  
+                        }
                     }
                     & > li {
                         &.active a{
@@ -226,7 +226,7 @@
                                 }
                                 span {
                                     color: variables.$primary;
-                                    
+
                                 }
                             }
                         }
@@ -271,7 +271,7 @@
                 }
             }
             li {
-                margin-bottom: 5px;                
+                margin-bottom: 5px;
                 &.menu-title {
                     font-weight: variables.$font-weight-semibold;
                     font-size: variables.$font-size-10;
@@ -315,7 +315,7 @@
                                         opacity: 1;
                                     }
                                 }
-                                &:hover {                                    
+                                &:hover {
                                     color: variables.$primary;
                                     .menu-arrow {
                                         &::before {
@@ -326,7 +326,7 @@
                             }
                         }
                     }
-                    
+
                     a {
                         &.subdrop {
                             background: variables.$dark-transparent;
@@ -347,7 +347,7 @@
                     a {
                         &.subdrop, &.active {
                             background: transparent;
-                            color: variables.$primary;                            
+                            color: variables.$primary;
                             .menu-arrow {
                                 &::before {
                                     border-color: variables.$primary;
@@ -375,7 +375,7 @@
                 }
             }
 
-        }            
+        }
         .menu-arrow {
             display: -webkit-box;
             display: -ms-flexbox;
@@ -420,7 +420,7 @@
         }
         &.subdrop{
             .menu-arrow {
-                transform: translateY(-50%) rotate(90deg);                          
+                transform: translateY(-50%) rotate(90deg);
                 background: #FFEDDC;
             }
         }
@@ -443,7 +443,7 @@
             background: transparent;
             position: relative;
         }
-        
+
     }
     .sidebar-right {
         height: 100%;
@@ -472,7 +472,7 @@
     li {
         a.subdrop {
             .menu-arrow {
-                transform: translateY(-50%) rotate(180deg);    
+                transform: translateY(-50%) rotate(180deg);
             }
         }
     }
@@ -490,13 +490,13 @@
             &:hover{
                 box-shadow: 0  0 0 150px variables.$purple inset;
                 color: variables.$white;
-            }  
+            }
             span{
                 margin-top: 15px;
                 font-weight:variables.$font-weight-medium;
             }
         }
-       
+
     }
     .sidemenu {
         a {
@@ -516,11 +516,11 @@
             svg {
                 stroke-width: 1px;
             }
-           
+
         }
-    }    
-    .btn-menubar { 
-        border: 1px solid variables.$gray-100;   
+    }
+    .btn-menubar {
+        border: 1px solid variables.$gray-100;
     }
     .header-badge {
         position: absolute;
@@ -530,7 +530,7 @@
         right: 5px;
         top: 2px;
         font-size: 6px;
-    } 
+    }
     .input-group {
         width: 100%;
         .input-icon-addon {
@@ -592,7 +592,7 @@
                                             }
                                         }
                                     }
-                                    
+
                                 }
                             }
                         }
@@ -606,7 +606,7 @@
                     opacity: 1;
                     transform: rotate(180deg);
                 }
-            }  
+            }
             .sidebar {
                 .sidebar-menu{
                     .clinicdropdown > a {
@@ -632,13 +632,13 @@
                             &::after {
                                 margin-left: 0;
                             }
-                        }                                                       
+                        }
                         svg {
                             margin-right:0;
                         }
                     }
                 }
-            } 
+            }
         }
         .sidebar{
             width: 72px;
@@ -650,18 +650,18 @@
             .header {
                 left: 252px;
             }
-            .sidebar{    
-                width: 252px;    
-                .sidebar-logo {   
-                    width: 252px;     
+            .sidebar{
+                width: 252px;
+                .sidebar-logo {
+                    width: 252px;
                     .logo {
                         display: block;
                     }
                     .logo-small {
                         display: none;
                         text-align: center;
-                    } 
-                }     
+                    }
+                }
                 .sidebar-menu{
                     .menu-title {
                         display:flex;
@@ -690,7 +690,7 @@
                             span{
                                 display:inline-block;
                             }
-                        }                        
+                        }
                         svg {
                             margin-right:10px;
                         }
@@ -769,7 +769,7 @@
             }
         }
     }
-     
+
     &.expand-menu {
         .sidebar {
             .sidebar-menu > ul > li.submenu-open ul li a {
@@ -786,7 +786,7 @@
             }
             .sidebar-menu {
                 > ul {
-                    li { 
+                    li {
                         &.menu-title {
                             &::before {
                                 content: none;
@@ -802,7 +802,7 @@
                 }
             }
         }
-        
+
     }
 }
 
@@ -997,13 +997,13 @@
                                 color: variables.$gray-700;
                             }
                         }
-                    }                    
+                    }
                     &.active{
                         a {
                             background: variables.$dark-transparent;
                         }
                     }
-                    &.submenu {                        
+                    &.submenu {
                         & > a {
                             &:hover {
                                 background: variables.$dark-transparent;
@@ -1036,7 +1036,7 @@
                 }
             }
             .tab-pane {
-               & > ul {                
+               & > ul {
                     & > li {
                         > a {
                             &:hover {
@@ -1108,8 +1108,8 @@
             }
         }
     }
-}   
-.menu-horizontal {    
+}
+.menu-horizontal {
     #toggle_btn{
         display: none;
     }
@@ -1140,7 +1140,7 @@
             display: none;
         }
     }
-    
+
     .header {
         left: 0;
         .main-header {
@@ -1151,15 +1151,15 @@
         }
         .header-left {
             display: block;
-            .logo { 
+            .logo {
                 display: block;
             }
             .dark-logo {
                 display: none;
             }
         }
-    }  
-}   
+    }
+}
 .sidebar-horizontal {
     margin: 0 auto;
     box-shadow: variables.$box-shadow-sm;
@@ -1256,7 +1256,7 @@
                                 max-height: none;
                             }
                         }
-                    }                    
+                    }
                 }
                 ul {
                     display: none;
@@ -1271,7 +1271,7 @@
                             .menu-arrow {
                                 right: 15px;
                             }
-                        } 
+                        }
                     }
                     a {
                         padding: 8px 15px;
@@ -1292,11 +1292,11 @@
             font-size: variables.$font-size-12;
             font-weight: variables.$font-weight-medium;
             display: block;
-            position: relative; 
+            position: relative;
         }
         ul li span {
             display: inline-block !important;
-        }           
+        }
         .sidebar-menu ul {
             ul {
                 & > li {
@@ -1315,12 +1315,12 @@
             display: inline-block !important;
             width:100%;
         }
-    
+
     .sidebar-menu {
         max-width: 1320px;
         @include mixins.respond-below(xxl) {
             max-width: 1170px;
-        }             
+        }
         @include mixins.respond-below(xl) {
             max-width: 950px;
         }
@@ -1498,7 +1498,7 @@
                                 color: variables.$gray-700;
                             }
                         }
-                    }                    
+                    }
                     &.active{
                         a {
                             background: variables.$dark-transparent;
@@ -1526,7 +1526,7 @@
                 }
             }
             .tab-pane {
-               & > ul {                
+               & > ul {
                     & > li {
                         > a {
                             &:hover {
@@ -1598,7 +1598,7 @@
             }
         }
     }
-}   
+}
 #horizontal-menu, #horizontal-single,
 #two-col-sidebar, #stacked-sidebar {
     display: none;

@@ -4,7 +4,7 @@
     class="btn btn-create"
     [disabled]="createDisabled()"
     (click)="create.emit()">
-    Create
+    {{ 'COMMON.CREATE' | translate }}
   </button>
 
   <button
@@ -12,7 +12,7 @@
     class="btn btn-update"
     [disabled]="updateDisabled()"
     (click)="update.emit()">
-    Update
+     {{ 'COMMON.UPDATE' | translate }}
   </button>
 
   <button
@@ -20,7 +20,7 @@
     class="btn btn-delete"
     [disabled]="deleteDisabled()"
     (click)="delete.emit()">
-    Delete
+     {{ 'COMMON.DELETE' | translate }}
   </button>
 
   <button
@@ -28,6 +28,6 @@
     class="btn btn-reset"
     [disabled]="resetDisabled()"
     (click)="reset.emit()">
-    Reset
+    {{ 'COMMON.RESET' | translate }}
   </button>
 </div>
